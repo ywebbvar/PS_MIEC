@@ -1,81 +1,199 @@
-<style type="text/css">
-/*  CSS chunck 1  */
-th {  background-color:#E0E0E0 ;
-      border-bottom:1px solid black;
-      padding:5px;}
-
-table{ 
-border-collapse:collapse;
-margin:auto;
- border: 1px solid black;}
-</style>
+---
+title: "Results from Y as Bernoulli and (X,Z,) as a truncated mixture"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
 
 
 
-Simulation of Method (Only PS Model) with m=12,n=3
-========================================================
-
-In this project, I extend the set up of the simulations conducted by Guo, Little and McConnel to include the potential outcomes, a causal effect and propensity score estimation. 
-
-This version includes estimation of confidence intervals using mitools and Reiter's method.
-
-This version uses IPTW and does not fit a correct model for the outcome $Y$.
-
-This version runs all reliabilities.
-
-The methods use different sets of variables to form the joint normal distribution:
-* $MIEC_{Ycov}$ uses $T$ as outcome, $Z$ and $Y_{obs}$ as helpful covariates
-* $MIEC_{noY}$ uses $T$ as outcome, $Z$ as helpful covariate
-* $MIEC_{noT}$ uses $Y$ as outcome, $Z$ as helpful covariate
-* $MIEC_{noTY}$ uses no outcome, $Z$ as helpful covariate
-
-
-
-```{r load_libraries, message=FALSE, warning=FALSE}
+```{r load_libraries, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggplot2)
 library(gridExtra)
-
-library(mvtnorm)
-library(mitools)
-library(MCMCpack)
 library(xtable)
-library(survey)
-library(ecodist)
-#library(Gmisc, verbose=FALSE) #verbose option does nothing when using knitr
-source("MI-EC algorithm.r")
+```
+
+```{r simulations, eval=TRUE, echo=FALSE}
+setwd("C:/Users/Yenny/Dropbox/2012 Research/Causal_Research/Code/DavidCode/Simulation/Confidence intervals/Different Distributions/Y_bernoulli_XZW_mixture")
+
+archive_names <- dir()[grep(".Rdata", dir())]
+
+bigresults <- list()
+
+load(archive_names[1])
+
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]
+
+bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]]
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]]
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]]
+
+
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]
+
+bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]]
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]]
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]]
+
+
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]
+
+bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]]
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]]
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]]
+
+
+
+
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]]
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] 
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]]
+
+
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]]
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] 
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]]
+
+
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]]
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] 
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]]
+
+for(i in archive_names[-1]) {
+  load(i)
+  
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]])
+
+  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]])
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]])
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]])
+
+  
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]])
+
+  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]])
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]])
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]])
+  
+  
+bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]])
+
+bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]])
+
+bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]])
+
+bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]])
+
+
+
+
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]])
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]])
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]])
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]])
+
+  
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]])
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]])
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]])
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]])
+  
+
+bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]])
+
+bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]])
+
+bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]])
+
+bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]])
+  
+}
+
+#Number of simulations used
+N_sim <- ncol(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]])
+```
+
+```{r bias_RMSE_fun, echo=FALSE}
+# I calculate bias with respect to the population average causal effect.
+
+bias_RMSE_cov <- function(dta, population=TRUE, Delta){
+                if(population == TRUE){
+                  coefs <- dta[grep("results", rownames(dta)),]
+                  bias  <- apply(coefs, 1, function(x) mean(x - Delta))
+                  RMSE  <- apply(coefs, 1, function(x) sqrt(mean((x - Delta)^2)))
+                  
+                  lower <- dta[grep("lower", rownames(dta)),]
+                  upper <- dta[grep("upper", rownames(dta)),]
+                  
+                  Noncov <- apply((lower < 2) & (upper > 2), 1, function(x) sum(x == FALSE)/length(x))
+                
+                }else{
+                  coefs <- dta[grep("results", rownames(dta)),]
+                  bias  <- apply(coefs, 1, function(x) mean(x - dta["insample mean",]))
+                  RMSE  <- apply(coefs, 1, function(x) sqrt(mean((x - dta["insample mean",])^2)))
+                  
+                  lower <- dta[grep("lower", rownames(dta)),]
+                  upper <- dta[grep("upper", rownames(dta)),]
+                  
+                  Noncov <- apply((lower < dta["insample mean",]) & (upper > dta["insample mean",]), 
+                                  1, function(x) sum(x == FALSE)/length(x))
+                }
+                
+                bias   <- bias
+                RMSE   <- RMSE
+                Cov <- (1-Noncov)*100
+                
+                results <- cbind(bias, RMSE, Cov)
+                
+                return(results)
+              }
 ```
 
 
 Definition of Parameters
 ------------------------
 
-The causal effect for every person is $\Delta = Y(1)-Y(0)$
+The causal effect is $\Delta = P(Y(1)=1) -P(Y(0)=1)$. We define a logistic regression model for the propensity score $p = P(T=1)$, where $T$ is the indicator of treatment assigned, $f(T \mid X,Z,\psi) \thicksim Bernoulli( expit(\gamma_0 + \gamma_X X + \gamma_z Z))$. 
 
-We define a logistic regression model for the propensity score $p = P(T=1)$, where $T$ is the indicator of treatment assigned:
+We generate $X,Z$ as follows. We construct $X$ with $f(X_1) \thicksim F(200,100), \quad f(X_2) \thicksim \chi^2(1), \quad f(X_3) \thicksim N(0,1)$, and define $X = (X_1 + - 2X_2+\frac{1}{2}X_3)$ if $X > -4$, else $X = 4$. We then generate $Z$ to have the same distribution and $cor(X,Z) = \rho$.
 
-$$f(T \mid X,Z,\psi) \thicksim Bernoulli( expit(\gamma_0 + \gamma_X X + \gamma_z Z))$$
-
-$$f(X,Z) \thicksim N_2 \Bigl(\bigl(\begin{smallmatrix} 0 \\ 0 \end{smallmatrix} \bigr), \bigl(\begin{smallmatrix} 1 && \rho \\ \rho && 1\end{smallmatrix}\bigl)\Bigl)$$
-
-and a measurement error model:
-
-$$f(W \mid T,X,Z) \thicksim N(\beta_0 + \beta_1 X, \sigma^2)$$
-
-The distribution of the potential outcomes is:
-
-$$f(Y(T) \mid T,X,Z) \thicksim N(\Delta T + \delta_X X + \delta_Z Z, \tau^2) $$
-
-with the errors of the potential outcomes $Y(1), Y(0)$ are independent, and with equal variance.
-
-Here, $\psi = (\gamma_0, \gamma_X, \gamma_Z, \tau^2)$ and $\gamma = (\gamma_X, \gamma_Z)$. 
+We use the measurement error model as $f(W \mid T,X,Z) \thicksim N(\beta_0 + \beta_1 X, \sigma^2)$, and a distribution of the potential outcomes as $f(Y(T) \mid T,X,Z) \thicksim Bernoulli(expit(\Delta T + \delta_X X + \delta_Z Z))$.
 
 The original values used in their simulation are:
 
-```{r def_params}
+```{r def_params, echo=FALSE}
 # Sample size and number of simulations
 n_main  <- 2500
 n_calib <- 500
-N_sim   <- 1
 
 # Distribution of T | X,Z
 gamma_0  <- 0 #This will determine the proportion receiving treatment
@@ -111,24 +229,222 @@ tau2     <- 1
 Distribution|Parameter  | Value     |   |Distribution|Parameter|Value
 -----       |-----      | -----     |---| ------     |------   |------
 Simulation  |$N_{sim}$  |`r N_sim`  |   | $W$          |$\beta_0$|`r beta_0`
-  |$n_{calib}$|`r n_calib`|   |            |$\beta_1$|`r beta_1` 
-  |$n_{main}$ |`r n_main` |   |            |small $\sigma^2$ | `r round(sigma2_s,3)`
+|  |$n_{calib}$|`r n_calib`|   |            |$\beta_1$|`r beta_1` 
+|  |$n_{main}$ |`r n_main` |   |            |small $\sigma^2$ | `r round(sigma2_s,3)`
 $T$ |$\gamma_0$ |`r gamma_0`|   |          |moderate $\sigma^2$ | `r round(sigma2_m,3)`
-  |$\gamma_Z$ |`r gamma_Z`|   |            |large $\sigma^2$ | `r round(sigma2_l,3)`
-  |small $\gamma_X$ |`r gamma_Xs`|  |$Y$   |$\Delta$ | `r Delta`
-  |large $\gamma_X$ |`r gamma_Xl`|  |      |$\delta_X$| `r delta_X`
+|  |$\gamma_Z$ |`r gamma_Z`|   |            |large $\sigma^2$ | `r round(sigma2_l,3)`
+|  |small $\gamma_X$ |`r gamma_Xs`|  |$Y$   |$\Delta$ | `r Delta`
+|  |large $\gamma_X$ |`r gamma_Xl`|  |      |$\delta_X$| `r delta_X`
 $(X,Z)$| low $\rho$ |`r rho_l` |  |        |$\delta_Z$| `r delta_Z` 
-  | medium $\rho$|  `r rho_m` |      |        |$\tau^2$  | `r tau2`
- | high $\rho$|  `r rho_h` |      |        | | 
+|  | medium $\rho$|  `r rho_m` |      |        |$\tau^2$  | `r tau2`
+| | high $\rho$|  `r rho_h` |      |        | | 
 
-We will use the functions $expit$ and $logit$ many times:
 
-```{r expitlogit}
-expit <- function(x) exp(x)/(1+exp(x))
-logit <- function(p) log(p/(1-p))
+
+```{r create_table, eval=TRUE, echo=FALSE}
+# Since the results will be presented with reliabilities, instead of sigma2, I order them in decreasing sigma2.
+
+big_table <- bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], Delta)
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], Delta))
+
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], Delta))
+
+big_table <- t(big_table)
+
+params_cols <- data.frame(gamma_X = gl(n=2,k=12,labels=c(gamma_Xs,gamma_Xl)), reliability = rep(rels,6), rho = rep(c(rho_l, rho_m, rho_h), 2, each=4))
+all_cols <- matrix(NA,24*3,3) #24 combinations of params, 3 =c(bias, RMSE, Cov)
+all_cols[seq(1,24*3,by=3),] <- as.numeric(as.matrix(params_cols))
+
+print_table <- cbind(all_cols, rownames(big_table), round(big_table,2))
+rownames(print_table) <- NULL
+colnames(print_table)[1:4] <- c("$\\gamma_X$", "Reliability", "$\\rho$", ".")
 ```
 
-Enigma code:
+```{r print_table, results='asis',eval=FALSE, echo=FALSE}
+# Big table with all results
+print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
+```
+
+```{r noModelPS_Bias_RMSE, fig.height=5.5,fig.width=13, dpi=200, fig.path='figure/', eval=FALSE, echo=FALSE}
+# B&W figure Bias and RMSE
+full_cols <- all_cols
+full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+
+big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
+wide_vars <- colnames(big_table_4graph)
+metrics   <- rownames(big_table_4graph)
+rownames(big_table_4graph) <- NULL
+results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
+results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
+names(results_long)[grep("time", names(results_long))] <- "method"
+names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+results_long$method <- factor(results_long$method)
+levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+
+
+results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
+results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+levels(results_long$metric)[1] <- "Abs(Bias)" 
+
+results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
+
+# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
+# in each facet, method is represented by shape and color
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+```
+
+```{r noModelPS_Noncov_re, fig.height=3.5,fig.width=13, dpi=200, fig.path='figure/', eval=FALSE, echo=FALSE}
+# B&W figure Coverage
+full_cols <- all_cols
+full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+
+big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
+wide_vars <- colnames(big_table_4graph)
+metrics   <- rownames(big_table_4graph)
+rownames(big_table_4graph) <- NULL
+results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
+results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
+names(results_long)[grep("time", names(results_long))] <- "method"
+names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+results_long$method <- factor(results_long$method)
+levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+
+
+results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
+results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+levels(results_long$metric)[2] <- "95% CI Coverage" 
+
+results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
+
+# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
+# in each facet, method is represented by shape and color
+p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+```
+
+
+Figures
+----------------------
+
+```{r noModelPS_Bias_RMSE_color, fig.height=3.5,fig.width=10, dpi=200, echo=FALSE}
+full_cols <- all_cols
+full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+
+big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
+wide_vars <- colnames(big_table_4graph)
+metrics   <- rownames(big_table_4graph)
+rownames(big_table_4graph) <- NULL
+results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
+results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
+names(results_long)[grep("time", names(results_long))] <- "method"
+names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+results_long$method <- factor(results_long$method)
+levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+
+
+results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
+results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+levels(results_long$metric)[1] <- "Abs(Bias)" 
+
+results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
+
+# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
+# in each facet, method is represented by shape and color
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+```
+
+
+```{r noModelPS_Noncov_re_color, fig.height=2.5,fig.width=10, dpi=200, echo=FALSE}
+full_cols <- all_cols
+full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
+
+big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
+wide_vars <- colnames(big_table_4graph)
+metrics   <- rownames(big_table_4graph)
+rownames(big_table_4graph) <- NULL
+results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
+results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
+names(results_long)[grep("time", names(results_long))] <- "method"
+names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+results_long$method <- factor(results_long$method)
+levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+
+
+results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
+results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+levels(results_long$metric)[2] <- "95% CI Coverage" 
+
+results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
+
+# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
+# in each facet, method is represented by shape and color
+p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+```
+
+
+
+Code for simulation
+-------------------------
 
 ```{r, eval=FALSE}
 ################################
@@ -560,453 +876,4 @@ time2 <- Sys.time()
 time2-time1
 
 save(results,file=paste("Simulation_Y_bernoulli_XZW_mixture_", i, "-", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
-```
-
-
-
-Loading simulations
-=========================
-
-```{r simulations, eval=TRUE}
-setwd("C:/Users/Yenny/Dropbox/2012 Research/Causal_Research/Code/DavidCode/Simulation/Confidence intervals/Different Distributions/Y_bernoulli_XZW_mixture")
-
-archive_names <- dir()[grep(".Rdata", dir())]
-
-bigresults <- list()
-
-load(archive_names[1])
-
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]]
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]]
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]]
-
-
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]]
-
-
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]]
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]]
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]]
-
-
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]]
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] 
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]]
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]]
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] 
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]]
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]]
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] 
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]]
-
-for(i in archive_names[-1]) {
-  load(i)
-  
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]])
-
-  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]])
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]])
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]])
-
-  
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]])
-
-  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]])
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]])
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]])
-  
-  
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]])
-
-
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]])
-
-  
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]])
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]])
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]])
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]])
-  
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]])
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]])
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]])
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]])
-  
-}
-
-#Number of simulations used
-(N_sim <- ncol(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]]))
-```
-
-I calculate bias with respect to the population average causal effect.
-```{r bias_RMSE_fun}
-bias_RMSE_cov <- function(dta, population=TRUE, Delta){
-                if(population == TRUE){
-                  coefs <- dta[grep("results", rownames(dta)),]
-                  bias  <- apply(coefs, 1, function(x) mean(x - Delta))
-                  RMSE  <- apply(coefs, 1, function(x) sqrt(mean((x - Delta)^2)))
-                  
-                  lower <- dta[grep("lower", rownames(dta)),]
-                  upper <- dta[grep("upper", rownames(dta)),]
-                  
-                  Noncov <- apply((lower < 2) & (upper > 2), 1, function(x) sum(x == FALSE)/length(x))
-                
-                }else{
-                  coefs <- dta[grep("results", rownames(dta)),]
-                  bias  <- apply(coefs, 1, function(x) mean(x - dta["insample mean",]))
-                  RMSE  <- apply(coefs, 1, function(x) sqrt(mean((x - dta["insample mean",])^2)))
-                  
-                  lower <- dta[grep("lower", rownames(dta)),]
-                  upper <- dta[grep("upper", rownames(dta)),]
-                  
-                  Noncov <- apply((lower < dta["insample mean",]) & (upper > dta["insample mean",]), 
-                                  1, function(x) sum(x == FALSE)/length(x))
-                }
-                
-                bias   <- bias
-                RMSE   <- RMSE
-                Cov <- (1-Noncov)*100
-                
-                results <- cbind(bias, RMSE, Cov)
-                
-                return(results)
-              }
-```
-
-
-```{r create_table, eval=TRUE}
-# Since the results will be presented with reliabilities, instead of sigma2, I order them in decreasing sigma2.
-
-big_table <- bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], Delta)
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], Delta))
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], Delta))
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], Delta))
-
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], Delta))
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], Delta))
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], Delta))
-
-big_table <- t(big_table)
-
-params_cols <- data.frame(gamma_X = gl(n=2,k=12,labels=c(gamma_Xs,gamma_Xl)), reliability = rep(rels,6), rho = rep(c(rho_l, rho_m, rho_h), 2, each=4))
-all_cols <- matrix(NA,24*3,3) #24 combinations of params, 3 =c(bias, RMSE, Cov)
-all_cols[seq(1,24*3,by=3),] <- as.numeric(as.matrix(params_cols))
-
-print_table <- cbind(all_cols, rownames(big_table), round(big_table,2))
-rownames(print_table) <- NULL
-colnames(print_table)[1:4] <- c("$\\gamma_X$", "Reliability", "$\\rho$", ".")
-```
-
-```{r print_table, results='asis',eval=TRUE}
-print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
-```
-
-```{r noModelPS_Bias_RMSE, fig.height=5.5,fig.width=13, dpi=200, fig.path='figure/'}
-full_cols <- all_cols
-full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-
-big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
-wide_vars <- colnames(big_table_4graph)
-metrics   <- rownames(big_table_4graph)
-rownames(big_table_4graph) <- NULL
-results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
-results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
-names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
-results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
-
-
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[1] <- "Abs(Bias)" 
-
-results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
-
-# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
-# in each facet, method is represented by shape and color
-p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
-```
-
-Figure for paper:
-```{r noModelPS_Noncov_re, fig.height=3.5,fig.width=13, dpi=200, fig.path='figure/'}
-full_cols <- all_cols
-full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-
-big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
-wide_vars <- colnames(big_table_4graph)
-metrics   <- rownames(big_table_4graph)
-rownames(big_table_4graph) <- NULL
-results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
-results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
-names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
-results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
-
-
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[2] <- "95% CI Coverage" 
-
-results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
-
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
-# in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
-```
-
-
-Figures in Color 
-===============
-
-```{r noModelPS_Bias_RMSE_color, fig.height=3.5,fig.width=10, dpi=200, fig.path='figure/'}
-full_cols <- all_cols
-full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-
-big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
-wide_vars <- colnames(big_table_4graph)
-metrics   <- rownames(big_table_4graph)
-rownames(big_table_4graph) <- NULL
-results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
-results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
-names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
-results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
-
-
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[1] <- "Abs(Bias)" 
-
-results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
-
-# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
-# in each facet, method is represented by shape and color
-p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
-```
-
-Figure for paper:
-```{r noModelPS_Noncov_re_color, fig.height=2.5,fig.width=10, dpi=200, fig.path='figure/'}
-full_cols <- all_cols
-full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-
-big_table_4graph <- big_table[,-grep("_mi",colnames(big_table))]
-wide_vars <- colnames(big_table_4graph)
-metrics   <- rownames(big_table_4graph)
-rownames(big_table_4graph) <- NULL
-results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
-results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
-names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
-results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
-
-
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[2] <- "95% CI Coverage" 
-
-results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
-
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
-# in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
-```
-
-
-
-
-```{r noModelPS_Noncov_all, fig.height=4,fig.width=13, fig.path='figure/'}
-full_cols <- all_cols
-full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
-
-big_table_4graph <- big_table
-wide_vars <- colnames(big_table_4graph)
-metrics   <- rownames(big_table_4graph)
-rownames(big_table_4graph) <- NULL
-results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
-results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
-names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
-results_long$method <- factor(results_long$method)
-#levels(results_long$method) <- c("MIEC (Y_obs,Z)", "MIEC (Z)","MIEC (T,Z)","MIEC (Y_obs,T,Z)","naive","Xtrue")
-
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
-# in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "Cov"), shape=method, color=method,facets=metric~gammaX_F+rho_F, size=I(1.2),
-  geom=c("line"), xlab="Reliability", ylab="") 
-p + geom_hline(yintercept=95)
-
-results_only_miRe <- with(results_long, results_long[metric == "Cov" & (method == "MIEC_Yout_mi.results" | method == "MIEC_Yout_re.results" | method == "MIEC_noT_mi.results" | method == "MIEC_noT_re.results"),])
-  
-p <- qplot(reliability, average, data=results_only_miRe, shape=method, color=method,facets=metric~gammaX_F+rho_F, size=I(1.2),
-  geom=c("line"), xlab="Reliability", ylab="") 
-p + geom_hline(yintercept=95)
-
-
-```
-
-
-Bias compared to naive method
-------------------------------
-
-Let $bias_{naive} = 100%$. Then, calculate the percentage of bias compared to the naive method. 
-
-```{r}
-big_table_perc <- big_table[,-grep("_mi", colnames(big_table))]
-big_table_perc <- round(-100 + abs(apply(big_table_perc, 1, function(x) (x-x["Xtrue.results"])/(x["naive.results"]-x["Xtrue.results"]))*100), 0)
-```
-
-
-```{r}
-params_cols <- data.frame(gamma_X = gl(n=2,k=12,labels=c(gamma_Xs,gamma_Xl)), reliability = rep(rels,6), rho = rep(c(rho_l, rho_m, rho_h), 2, each=4))
-all_cols <- matrix(NA,24*3,3) #24 combinations of params, 3 =c(bias, RMSE, Cov)
-all_cols[seq(1,24*3,by=3),] <- as.numeric(as.matrix(params_cols))
-
-print_table <- cbind(all_cols, rownames(big_table), round(big_table,2))
-rownames(print_table) <- NULL
-colnames(print_table)[1:4] <- c("$\\gamma_X$", "Reliability", "$\\rho$", ".")
-
-print_table <- cbind(all_cols, rownames(big_table), rep(NA,length(all_cols[,1])),t(big_table_perc))
-rownames(print_table) <- NULL
-colnames(print_table)[1:5] <- c("$\\gamma_X$", "Reliability", "$\\rho$", rep(".",2))
-```
-
-```{r print_table_naive, results='asis'}
-print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
-```
-
-Only bias:
-```{r print_table_naive_bias, results='asis'}
-print(xtable(print_table[seq(1,nrow(print_table), by=3),]), type = 'html', html.table.attributes = '', include.rownames=FALSE)
-```
-
-Only RMSE:
-```{r print_table_naive_rmse, results='asis'}
-print(xtable(print_table[seq(3,nrow(print_table), by=3),]), type = 'html', html.table.attributes = '', include.rownames=FALSE)
-```
-
-Only Coverage:
-```{r print_table_naive_cov, results='asis'}
-print(xtable(print_table[seq(3,nrow(print_table), by=3),]), type = 'html', html.table.attributes = '', include.rownames=FALSE)
 ```
