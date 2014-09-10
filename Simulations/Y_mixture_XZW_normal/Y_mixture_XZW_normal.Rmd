@@ -1,5 +1,5 @@
 ---
-title: "Results from Y as Bernoulli and (X,Z,W) as a truncated mixture"
+title: "Results from Y as a mixture and (X,Z,W) as Multivariate Normal"
 output:
   html_document:
     toc: true
@@ -15,7 +15,7 @@ library(xtable)
 ```
 
 ```{r simulations, eval=TRUE, echo=FALSE}
-setwd("C:/Users/Yenny/Dropbox/2012 Research/Causal_Research/Code/DavidCode/Simulation/Confidence intervals/Different Distributions/Y_bernoulli_XZW_mixture")
+setwd("C:/Users/Yenny/Dropbox/2012 Research/Causal_Research/Code/DavidCode/Simulation/Confidence intervals/Different Distributions/Y_mixture_XZW_normal")
 
 archive_names <- dir()[grep(".Rdata", dir())]
 
@@ -182,11 +182,14 @@ bias_RMSE_cov <- function(dta, population=TRUE, Delta){
 Definition of Parameters
 ------------------------
 
-The causal effect is $\Delta = P(Y(1)=1) -P(Y(0)=1)$. We define a logistic regression model for the propensity score $p = P(T=1)$, where $T$ is the indicator of treatment assigned, $f(T \mid X,Z,\psi) \thicksim Bernoulli( expit(\gamma_0 + \gamma_X X + \gamma_z Z))$. 
+The causal effect is $\Delta = E(Y(1) - Y(0))$. We define a logistic regression model for the propensity score $p = P(T=1)$, where $T$ is the indicator of treatment assigned, $$f(T \mid X,Z,\psi) \thicksim Bernoulli( expit(\gamma_0 + \gamma_X X + \gamma_z Z))$$. 
 
-We generate $X,Z$ as follows. We construct $X$ with $f(X_1) \thicksim F(200,100), \quad f(X_2) \thicksim \chi^2(1), \quad f(X_3) \thicksim N(0,1)$, and define $X = (X_1 + - 2X_2+\frac{1}{2}X_3)$ if $X > -4$, else $X = 4$. We then generate $Z$ to have the same distribution and $cor(X,Z) = \rho$.
+We use $$f(X,Z) \thicksim N_2 \Bigl(\bigl(\begin{smallmatrix} 0 \\ 0 \end{smallmatrix} \bigr), \bigl(\begin{smallmatrix} 1 && \rho \\ \rho && 1\end{smallmatrix}\bigl)\Bigl).$$
 
-We use the measurement error model as $f(W \mid T,X,Z) \thicksim N(\beta_0 + \beta_1 X, \sigma^2)$, and a distribution of the potential outcomes as $f(Y(T) \mid T,X,Z) \thicksim Bernoulli(expit(\Delta T + \delta_X X + \delta_Z Z))$.
+We also use the measurement error model as $f(W \mid T,X,Z) \thicksim N(\beta_0 + \beta_1 X, \sigma^2)$.
+
+To construct potential outcomes that are not normally distributed, we use $f(e_{t1}) \thicksim F(300,20)$, $f(e_{t2}) \thicksim \Gamma(2,2)$ and set $$Y(T) = \Delta T + \delta_x X + \delta_Z Z + e_{T1} - \frac{20}{18} + e_{T2} - 4.$$
+
 
 The original values used in their simulation are:
 
@@ -451,8 +454,8 @@ Code for simulation
 ##  Simulation of propensity score with 
 ##   covariates measured with error
 
-##  This code was based on 'Y_bernoulli_XWZ_mixture.R', which 
-##  was purled from Y_bernoulli_XWZ_mixture.Rmd, 
+##  This code was based on 'Y_mixture_XWZ_normal.R', which 
+##  was purled from Y_misture_XWZ_normal.Rmd, 
 ##  and modified to be run on Enigma:
 ##   - Adds intro, and command to import the iteration from 
 ##     the terminal 'i'
@@ -477,12 +480,12 @@ Code for simulation
 
 
 ##  We use this code to evaluate how sensitive MIEc is to the distributional assumptions. To do that
-##   - We assume that Y has a bernoulli distribution and 
-##   - We assume that X comes from a truncated mixted distribution (see code)
+##   - We assume that Y continuous non-gaussian distribution and 
+##   - We assume that X comes from a normal distribution
 ##   - We add the library "ecodist" (this allows the creation of variables with certain correlation)
 
 ##  We also changed the parameter Delta, the treatment effect, to 2. This reduces the unbalances in Y (when Delta was equal to 5 most of
-##  the values for Y1 were 1)
+##  the values for Y1 were 1 in the bernoulli case)
 
 ##  We update the definition of reliability
 
@@ -492,9 +495,7 @@ Code for simulation
 temp <- commandArgs(TRUE)
 i    <-as.numeric(temp[1])
 
-
 ## ----load_libraries, message=FALSE, warning=FALSE------------------------
-
 library(mvtnorm)
 library(mitools)
 library(MCMCpack)
@@ -503,7 +504,6 @@ library(survey)
 library(ecodist)
 #library(Gmisc, verbose=FALSE) #verbose option does nothing when using knitr
 source("MI-EC algorithm.r")
-
 
 ## ----def_params----------------------------------------------------------
 # Sample size and number of simulations
@@ -527,14 +527,11 @@ rho_h    <- 0.9
 beta_0   <- 0
 beta_1   <- 1
 
-#The variance of X is obtain by doing (see code below)
-# X =  rf(10000000,200,100)-2*rchisq(10000000,1)+0.5*rnorm(10000000,0,1)
-# X[X< -4]=4
-# var(X)
+#The variance of X is obtain by doing
 
-var_x     = 3.39
+
 rels      <- c(0.3,0.6,0.9,0.999)
-sigmas    <- var_x*((1/rels) - beta_1^(2))
+sigmas    <- ((1/rels) - beta_1^(2))
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
 sigma2_m  <- sigmas[2]
@@ -547,6 +544,7 @@ delta_Z  <- 0.1
 tau2     <- 1
 
 
+
 ## ----expitlogit----------------------------------------------------------
 expit <- function(x) exp(x)/(1+exp(x))
 logit <- function(p) log(p/(1-p))
@@ -555,31 +553,26 @@ logit <- function(p) log(p/(1-p))
 ## ----sampling_fun--------------------------------------------------------
 sampling <- function(cor_level, X_effect, m_error){
     
-X =  rf(n_main+n_calib,200,100)-2*rchisq(n_main+n_calib,1)+0.5*rnorm(n_main+n_calib,0,1)
-X[X< -4]=4
-
-
-if(cor_level == "low"){
-  X_Zl = corgen(n_main+n_calib,X, rho_l, epsilon=0)
-}else if(cor_level == "med") {
-  X_Zl = corgen(n_main+n_calib,X, rho_m, epsilon=0)
-}else if(cor_level == "high") {
-  X_Zl = corgen(n_main+n_calib,X, rho_h, epsilon=0)
-}else {stop("Correlation level must be 'high', 'med', or 'low'")}
-
-X_Z = matrix(NA, ncol = 2, nrow=n_main+n_calib)
-X_Z[,1] = X_Zl[[1]]
-X_Z[,2] = X_Zl[[2]]
-
-colnames(X_Z) <- c("X", "Z")
-
-
+    # Sampling ($X,Z$) from a multivariate distribution, according to a set level of correlation.
+    if(cor_level == "low"){
+       sigma_X_Z <- matrix(c(1,rho_l,rho_l,1), ncol=2)
+     }else if(cor_level == "med") {
+       sigma_X_Z = matrix(c(1,rho_m,rho_m,1), ncol=2)
+     }else if(cor_level == "high") {
+       sigma_X_Z = matrix(c(1,rho_h,rho_h,1), ncol=2)
+     }else {stop("Correlation level must be 'high', 'med', or 'low'")}
+    
+    X_Z <- rmvnorm(n_main+n_calib, mean = c(0,0), sigma = sigma_X_Z)
+    colnames(X_Z) <- c("X", "Z")
     
     
     # Sample Y(0), Y(1) \mid X,Z
-Y0 <- rbinom(n_main+n_calib,1, prob = expit(delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]))
-Y1 <- rbinom(n_main+n_calib,1, prob = expit(Delta + delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]))
     
+    e0 <- rf(n_main+n_calib, 300, 20)-(20/18) + rgamma(n_main+n_calib,shape=2 , scale=2)-4
+    e1 <- rf(n_main+n_calib, 300, 20)-(20/18) + rgamma(n_main+n_calib,shape=2 , scale=2)-4
+
+    Y0 <- delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"] + e0         
+    Y1 <- Delta + delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"] + e1
     #Y1 <- Y0 + Delta     # rank preserving
     
     
@@ -872,8 +865,10 @@ results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) fu
 results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "large"))
 time2 <- Sys.time()
 
+
+
 ## ----save_results, eval=TRUE---------------------------------------------
 time2-time1
 
-save(results,file=paste("Simulation_Y_bernoulli_XZW_mixture_", i, "-", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
+save(results,file=paste("Simulation_Y_mixture_XZW_normal_", i, "-", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
 ```
