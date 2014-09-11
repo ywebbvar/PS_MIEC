@@ -6,4 +6,4 @@ output: html_document
 
 This is the online companion to the paper 'Applying Multiple Imputation for External Calibration to Propensity Score Analysis', by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
 
-You can see the details, color figures and code for the [normal simulation](http://rmarkdown.rstudio.com).
+You can see the details, color figures and code for the [normal simulation](https://github.com/ywebbvar/PS_MIEC/blob/gh-pages/Simulations/Y_normal_XZW_normal/Y_normal_XZW_normal.html).
