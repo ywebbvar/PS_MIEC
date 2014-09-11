@@ -1,0 +1,9 @@
+---
+title: "Supplementary Materials"
+author: "Yenny Webb-Vargas"
+output: html_document
+---
+
+This is the online companion to the paper 'Applying Multiple Imputation for External Calibration to Propensity Score Analysis', by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
+
+You can see the details, color figures and code for the [normal simulation](http://rmarkdown.rstudio.com).
