@@ -6,4 +6,14 @@ output: html_document
 
 This is the online companion to the paper 'Applying Multiple Imputation for External Calibration to Propensity Score Analysis', by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
 
-You can see the details, color figures and code for the [normal simulation](https://github.com/ywebbvar/PS_MIEC/blob/gh-pages/Simulations/Y_normal_XZW_normal/Y_normal_XZW_normal.html).
+You can see the details, color figures and code by following the links:
+
+* Normal scenario: [Normal 'Y', normal (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_normal_XZW_normal/)
+
+Non-normal scenarios:
+
+* [Normal 'Y', mixture (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_normal_XZW_mixture/)
+* [Bernoulli 'Y', normal (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_bernoulli_XZW_normal/)
+* [Bernoulli 'Y', mixture (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_bernoulli_XZW_mixture/)
+* [Mixture 'Y', normal (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_mixture_XZW_normal/)
+* [Mixture 'Y', mixture (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_mixture_XZW_mixture/)
