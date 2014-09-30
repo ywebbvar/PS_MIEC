@@ -4,7 +4,7 @@ author: "Yenny Webb-Vargas"
 output: html_document
 ---
 
-This is the online companion to the paper 'Applying Multiple Imputation for External Calibration to Propensity Score Analysis', by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
+This is the online companion to the paper ['Applying Multiple Imputation for External Calibration to Propensity Score Analysis'](http://biostats.bepress.com/jhubiostat/paper269/), by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
 
 You can see the details of the simulations, color figures and code by following the links:
 
