@@ -316,7 +316,7 @@ colnames(print_table)[1:4] <- c("$\\gamma_X$", "Reliability", "$\\rho$", ".")
 print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
 ```
 
-```{r noModelPS_Bias_RMSE, fig.height=5.5,fig.width=13, dpi=300, fig.path='figure/', eval=TRUE, echo=FALSE}
+```{r noModelPS_Bias_RMSE, fig.height=5.5,fig.width=13, dpi=300, fig.path='figure/', eval=FALSE, echo=FALSE}
 # B&W figure Bias and RMSE
 full_cols <- all_cols
 full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
@@ -347,7 +347,7 @@ p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov")
 p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
 ```
 
-```{r noModelPS_Noncov_re, fig.height=3.5,fig.width=13, dpi=300, fig.path='figure/', eval=TRUE, echo=FALSE}
+```{r noModelPS_Noncov_re, fig.height=3.5,fig.width=13, dpi=300, fig.path='figure/', eval=FALSE, echo=FALSE}
 # B&W figure Coverage
 full_cols <- all_cols
 full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
