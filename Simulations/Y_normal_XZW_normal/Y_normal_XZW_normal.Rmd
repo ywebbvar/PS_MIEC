@@ -382,7 +382,7 @@ p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-
 Figures
 ----------------------
 
-```{r noModelPS_Bias_RMSE_color, fig.height=3.5,fig.width=10, dpi=300, echo=FALSE}
+```{r noModelPS_Bias_RMSE_color, fig.height=3.5,fig.width=10, dpi=300, fig.path='figure/', echo=FALSE}
 full_cols <- all_cols
 full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
 full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
@@ -413,7 +413,7 @@ p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-
 ```
 
 
-```{r noModelPS_Noncov_re_color, fig.height=2.5,fig.width=10, dpi=300, echo=FALSE}
+```{r noModelPS_Noncov_re_color, fig.height=2.5,fig.width=10, dpi=300, fig.path='figure/', echo=FALSE}
 full_cols <- all_cols
 full_cols[seq(2,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
 full_cols[seq(3,nrow(all_cols),by=3),] <- as.numeric(as.matrix(params_cols))
