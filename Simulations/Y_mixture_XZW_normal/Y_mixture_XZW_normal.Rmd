@@ -338,13 +338,13 @@ results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","N
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
 results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[1] <- "Bias" 
+levels(results_long$metric)[1] <- "Abs(Bias)" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
 # Scatterplot of reliability vs. average bias for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
 p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
 ```
 
@@ -403,13 +403,13 @@ results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","N
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
 results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
-levels(results_long$metric)[1] <- "Bias" 
+levels(results_long$metric)[1] <- "Abs(Bias)" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
 # Scatterplot of reliability vs. average bias for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
 p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
 ```
 
