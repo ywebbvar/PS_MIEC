@@ -1,8 +1,10 @@
 ---
 title: "Results from Y as Normal and (X,Z,W) as a truncated mixture"
 output:
+  pdf_document:
+    toc: yes
   html_document:
-    toc: true
+    toc: yes
     toc_depth: 2
 ---
 
@@ -809,66 +811,90 @@ set.seed(62382+i)
 
 results <- list()
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "extra small"))
+results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x)
+  full_simulation(cor_level = "low", X_effect = "small", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "extra small"))
+results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "small", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "extra small"))
-
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "extra small"))
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "extra small"))
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "extra small"))
+results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "small", m_error = "extra small"))
 
 
+results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "large", m_error = "extra small"))
 
+results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "large", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "small"))
-
-results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "small"))
-
-results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "small"))
-
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "small"))
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "small"))
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "small"))
+results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "large", m_error = "extra small"))
 
 
 
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "moderate"))
+results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "small", m_error = "small"))
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "moderate"))
+results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "small", m_error = "small"))
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "moderate"))
-
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "moderate"))
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "moderate"))
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "moderate"))
+results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "small", m_error = "small"))
 
 
+results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "large", m_error = "small"))
+
+results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "large", m_error = "small"))
+
+results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "large", m_error = "small"))
 
 
-results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "large"))
-
-results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "large"))
-
-results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "large"))
 
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "large"))
+results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "small", m_error = "moderate"))
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "large"))
+results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "small", m_error = "moderate"))
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "large"))
+results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "small", m_error = "moderate"))
+
+
+results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "large", m_error = "moderate"))
+
+results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "large", m_error = "moderate"))
+
+results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "large", m_error = "moderate"))
+
+
+
+
+results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "small", m_error = "large"))
+
+results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "small", m_error = "large"))
+
+results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "small", m_error = "large"))
+
+
+results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "low", X_effect = "large", m_error = "large"))
+
+results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "med", X_effect = "large", m_error = "large"))
+
+results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) 
+  full_simulation(cor_level = "high", X_effect = "large", m_error = "large"))
 time2 <- Sys.time()
 
 
