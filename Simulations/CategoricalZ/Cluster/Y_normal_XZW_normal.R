@@ -27,7 +27,7 @@ library(xtable)
 library(survey)
 library(ecodist)
 
-if(cluster){source("/home/bst/student/ywebbvar/Github/PS_MIEC/MIEC_original/MI-EC algorithm.r")}else{source("~/GitHub/PS_MIEC/MIEC_original/MI-EC_algorithm.r")}
+if(cluster){source("/home/bst/student/ywebbvar/Github/PS_MIEC/MIEC_original/MI-EC_algorithm.r")}else{source("~/GitHub/PS_MIEC/MIEC_original/MI-EC_algorithm.r")}
 
 
 ## ----expitlogit----------------------------------------------------------
