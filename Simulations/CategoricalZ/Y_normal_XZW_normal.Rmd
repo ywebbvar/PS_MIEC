@@ -213,7 +213,7 @@ rho_h    <- 0.9
 beta_0   <- 0
 beta_1   <- 1
 
-rels      <- c(0.3,0.6,0.9,0.999)
+rels      <- c(0.5,0.7,0.9,0.999)
 sigmas    <- (1/rels) - 1
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
@@ -581,7 +581,7 @@ beta_1   <- 1
 
 #The variance of X is obtain by doing
 
-rels      <- c(0.3,0.6,0.9,0.999)
+rels      <- c(0.5,0.7,0.9,0.999)
 sigmas    <- ((1/rels) - beta_1^(2))
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
