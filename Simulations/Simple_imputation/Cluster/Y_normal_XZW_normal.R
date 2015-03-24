@@ -104,13 +104,12 @@ sampling <- function(cor_level, X_effect, m_error){
   X_Z <- rmvnorm(n_main+n_calib, mean = c(0,0), sigma = sigma_X_Z)
   colnames(X_Z) <- c("X", "Z")
   
-  ZB = X_Z[,"Z"] > -0.5 & X_Z[,"Z"] <= 0.5
-  ZC = X_Z[,"Z"] >  0.5
   
   # Sample Y(0), Y(1) \mid X,Z
   
-  Y0 <- rnorm(n_main+n_calib, mean=(delta_X*X_Z[,"X"] + delta_ZB*ZB + delta_ZC*ZC), sqrt(tau2))
-  Y1 <- rnorm(n_main+n_calib, mean=(Delta + delta_X*X_Z[,"X"] + delta_ZB*ZB + delta_ZC*ZC), sqrt(tau2))
+  Y0 <- rnorm(n_main+n_calib, mean=(delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), 
+              sqrt(tau2))
+  Y1 <- rnorm(n_main+n_calib, mean=(Delta + delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), sqrt(tau2))
   
   #Y1 <- Y0 + Delta     # rank preserving
   
@@ -118,9 +117,9 @@ sampling <- function(cor_level, X_effect, m_error){
   # Sample from the distribution of $T \mid X,Z,\psi$
   
   if(X_effect == "small"){
-    logit_T <- gamma_0 + gamma_Xs*X_Z[,"X"] + gamma_ZB*ZB + gamma_ZC*ZC
+    logit_T <- gamma_0 + gamma_Xs*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
   } else if(X_effect == "large") {
-    logit_T <- gamma_0 + gamma_Xl*X_Z[,"X"] + gamma_ZB*ZB + gamma_ZC*ZC
+    logit_T <- gamma_0 + gamma_Xl*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
   } else {stop("Effect of X must be 'small' or 'large'")}
   
   T <- rbinom(n_main+n_calib, 1, p= expit(logit_T))
@@ -149,7 +148,8 @@ sampling <- function(cor_level, X_effect, m_error){
   i.calib <- 1:n_calib
   i.main  <- (n_calib+1):(n_calib+n_main)
   
-  data.main  <- data.frame(W = W[i.main], T = T[i.main], ZB=ZB[i.main], ZC=ZC[i.main],Y_obs = Y_obs[i.main])
+  data.main  <- data.frame(W = W[i.main], T = T[i.main], Z=X_Z[i.main,"Z"], 
+                           Y_obs = Y_obs[i.main])
   data.cause <- data.frame(p= expit(logit_T[i.main]), X= X_Z[i.main,"X"], Y0 = Y0[i.main], Y1 = Y1[i.main])
   data.calib <- data.frame(X= X_Z[i.calib,"X"], W = W[i.calib])
   
@@ -157,11 +157,13 @@ sampling <- function(cor_level, X_effect, m_error){
 }
 
 
+
+
 ## ----Correction_functions------------------------------------------------
 true_regression <- function(data_main, Xtrue){
   data_main$Xtrue <- Xtrue
   
-  model <- glm(T~Xtrue+ZB+ZC, data=data_main, family=binomial)
+  model <- glm(T~Xtrue+Z, data=data_main, family=binomial)
   p_hat <- predict(model,type="response")
   
   data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
@@ -181,7 +183,7 @@ true_regression <- function(data_main, Xtrue){
 
 
 naive_regression <- function(data_main){
-  model <- glm(T ~ W + ZB+ZC, data=data_main, family=binomial)
+  model <- glm(T ~ W + Z, data=data_main, family=binomial)
   p_hat <- predict(model,type="response")
   
   data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
@@ -200,16 +202,41 @@ naive_regression <- function(data_main){
 }
 
 
-simple_imputation <- function(data_main, data_calib){
+simple_imputation <- function(data_main, data_calib, N_data=12*3){
   #1) estimate the variance of the error sigma^2 in the calibration sample
   
-  var_XW <- lm()
-  
+  sd_XW <- sd(lm(W ~ X-1, data=data_calib)$res)
   
   #2) generate an error variable in a multiple imputation setting following 
   #   N(0,sigma^2) to be subtracted (or added) to the observed variable X, over 
   #   N datasets (following their approach to combine across datasets).
   
+  errors <- sapply(1:N_data, function(n) rnorm(nrow(data_main), mean=0, sd=sd_XW))
+  X_imp  <- data_main$W - errors
+  
+  delta_MI <- matrix(NA,ncol=length(imputed_cols),nrow=2)
+  
+  MI_data  <- data.frame(
+    T  = data_main[,"T"],
+    ZB = data_main[,"ZB"],
+    ZC = data_main[,"ZC"],
+    Y_obs = data_main[,"Y_obs"])
+  
+  for(k in imputed_cols){
+    MI_data$X <- MIEC_data[,k]
+    model <- glm(T ~ X + ZB + ZC, data=MI_data, family=binomial)
+    p_hat <- predict(model,type="response")
+    
+    MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+    
+    design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
+    survey.model <- svyglm(Y_obs~T, design=design.ate)
+    delta_MI[,k-(q+r)] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  }
+  
+  
+  estimate.simp <- summary(MIcombine(results = as.list(delta_MI[1,]), 
+                                        variances = as.list(delta_MI[2,]^2)))[,-5]
   
   
 }
@@ -230,23 +257,23 @@ multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
   
   if(option=="Yout"){ # Y as a helpful covariate
     q <- 2  #Dimension of T. T = (T,Y_obs)
-    r <- 2  #Dimension of Z. Z = (ZB,ZC)
-    MIEC_data <- MIEC(data_main[,c("W","T","Y_obs","ZB", "ZC")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    r <- 1  #Dimension of Z. Z = (Z)
+    MIEC_data <- MIEC(data_main[,c("W","T","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
     
   }else if(option=="noY"){
     q <- 1  #Dimension of T. T = T
-    r <- 2  #Dimension of Z. Z = ZB, ZC
-    MIEC_data <- MIEC(data_main[,c("W","T","ZB","ZC")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","T","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
     
   }else if(option=="noT"){
     q <- 1  #Dimension of T. T = Y
-    r <- 2  #Dimension of Z. Z = ZB, ZC
-    MIEC_data <- MIEC(data_main[,c("W","Y_obs","ZB", "ZC")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
     
   }else if(option=="noTY"){
     q <- 0  #Dimension of T. T = NULL
-    r <- 2  #Dimension of Z. Z = ZB, ZC
-    MIEC_data <- MIEC(data_main[,c("W","ZB", "ZC")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
     
   }else {stop("Only options 'Ycov', 'noT', 'noY', 'noT' are accepted")}
   
@@ -256,14 +283,13 @@ multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
   delta_MI <- matrix(NA,ncol=length(imputed_cols),nrow=2)
   
   MI_data  <- data.frame(
-    T  = data_main[,"T"],
-    ZB = data_main[,"ZB"],
-    ZC = data_main[,"ZC"],
+    T = data_main[,"T"],
+    Z = data_main[,"Z"],
     Y_obs = data_main[,"Y_obs"])
   
   for(k in imputed_cols){
     MI_data$X <- MIEC_data[,k]
-    model <- glm(T ~ X + ZB + ZC, data=MI_data, family=binomial)
+    model <- glm(T ~ X + Z, data=MI_data, family=binomial)
     p_hat <- predict(model,type="response")
     
     MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
@@ -316,6 +342,7 @@ multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
   
   return(rbind(estimate.mitools,estimate.reiter))
 }
+
 
 
 
