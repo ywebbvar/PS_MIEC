@@ -53,12 +53,11 @@ if(cluster){
 # Sample size and number of simulations
 n_main  <- 2500
 n_calib <- 500
-N_sim   <- 10
+N_sim   <- ifelse(cluster, 10, 2)
 
 # Distribution of T | X,Z
 gamma_0  <- 0 #This will determine the proportion receiving treatment
-gamma_ZB <- 0.4
-gamma_ZC <- gamma_ZB*3
+gamma_Z  <- 0.4
 gamma_Xs <- 0.4
 gamma_Xl <- 1.2
 
@@ -84,8 +83,7 @@ sigma2_l  <- sigmas[1]
 # Distribution of Y(T) | T, X, Z
 Delta    <- 2
 delta_X  <- 0.5
-delta_ZB <- 0.1
-delta_ZC <- 0.1
+delta_Z  <- 0.1
 tau2     <- 1
 
 
@@ -214,37 +212,35 @@ simple_imputation <- function(data_main, data_calib, N_data=12*3){
   errors <- sapply(1:N_data, function(n) rnorm(nrow(data_main), mean=0, sd=sd_XW))
   X_imp  <- data_main$W - errors
   
-  delta_MI <- matrix(NA,ncol=length(imputed_cols),nrow=2)
+  delta_MI <- matrix(NA,ncol=ncol(X_imp),nrow=2)
   
   MI_data  <- data.frame(
-    T  = data_main[,"T"],
-    ZB = data_main[,"ZB"],
-    ZC = data_main[,"ZC"],
+    T = data_main[,"T"],
+    Z = data_main[,"Z"],
     Y_obs = data_main[,"Y_obs"])
   
-  for(k in imputed_cols){
-    MI_data$X <- MIEC_data[,k]
-    model <- glm(T ~ X + ZB + ZC, data=MI_data, family=binomial)
+  for(k in 1:ncol(X_imp)){
+    MI_data$X <- X_imp[,k]
+    model <- glm(T ~ X + Z, data=MI_data, family=binomial)
     p_hat <- predict(model,type="response")
     
     MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
     
     design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
     survey.model <- svyglm(Y_obs~T, design=design.ate)
-    delta_MI[,k-(q+r)] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+    delta_MI[,k] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
   }
   
   
-  estimate.simp <- summary(MIcombine(results = as.list(delta_MI[1,]), 
+  estimate.mitools <- summary(MIcombine(results = as.list(delta_MI[1,]), 
                                         variances = as.list(delta_MI[2,]^2)))[,-5]
-  
-  
+  return(estimate.mitools)   
 }
 
 ## ----MIEC_funs-----------------------------------------------------------
-multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
+multiple_imputation_EC   <- function(data_main, data_calib, option="Yout"){
   #Option: select 'Ycov', 'noT', 'noY', 'noT'
-  # Ycov (Y covariate) uses $T$ as outcome, $Z$ and $Y_{obs}$ as helpful covariates
+  # Yout (includes Y) uses $T$ as outcome, $Z$ and $Y_{obs}$ as helpful covariates
   # noY (no Y) uses $T$ as outcome, $Z$ as helpful covariate
   # noT (no T) uses $Y_{obs}$ as outcome, $Z$ as helpful covariate
   # noTY (no T, nor Y) uses no outcome, $Z$ as helpful covariate
@@ -275,7 +271,7 @@ multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
     r <- 1  #Dimension of Z. Z = Z
     MIEC_data <- MIEC(data_main[,c("W","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
     
-  }else {stop("Only options 'Ycov', 'noT', 'noY', 'noT' are accepted")}
+  }else {stop("Only options 'Yout', 'noT', 'noY', 'noT' are accepted")}
   
   
   imputed_cols <- (q+r+1):ncol(MIEC_data)
@@ -356,14 +352,16 @@ full_simulation <- function(cor_level = "low", X_effect = "large", m_error = "la
   MIEC_noY  <- multiple_imputation_EC(data$main, data$calib, "noY")
   MIEC_noT  <- multiple_imputation_EC(data$main, data$calib, "noT")
   MIEC_noTY <- multiple_imputation_EC(data$main, data$calib, "noTY")
+  MI_simple <- simple_imputation(data$main, data$calib)
   
-  result_table      <- rbind(Xtrue, naive,MIEC_Yout, MIEC_noY, MIEC_noT, MIEC_noTY)
+  result_table      <- rbind(Xtrue, naive,MI_simple,MIEC_Yout, MIEC_noY, MIEC_noT, MIEC_noTY)
   mean_insample     <- mean(data$cause$Y1 - data$cause$Y0) 
   result_string     <- c(mean_insample,t(result_table))
   
   names(result_string) <- c("insample mean", 
                             paste0("Xtrue.", colnames(Xtrue)),
                             paste0("naive.", colnames(Xtrue)),
+                            paste0("MI_simple.", colnames(Xtrue)),
                             paste0("MIEC_Yout_mi.", colnames(Xtrue)),
                             paste0("MIEC_Yout_re.", colnames(Xtrue)),
                             paste0("MIEC_noY_mi.", colnames(Xtrue)),
