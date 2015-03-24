@@ -22,7 +22,7 @@
 
 ##  We use this code to evaluate a simple imputation procedure
 
-cluster=FALSE
+cluster=TRUE
 
 library(mvtnorm)
 library(mitools)
