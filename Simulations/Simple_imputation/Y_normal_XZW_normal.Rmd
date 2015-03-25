@@ -6,7 +6,7 @@ output:
     toc_depth: 2
 ---
 
-These are results that include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$.
+These are results that include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$. This method performs similar to the uncongenial method, and both of these perform worse than using a naive approach.
 
 ```{r load_libraries, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggplot2)
@@ -213,8 +213,10 @@ rho_h    <- 0.9
 beta_0   <- 0
 beta_1   <- 1
 
-rels      <- c(0.3,0.6,0.9,0.999)
-sigmas    <- (1/rels) - 1
+#The variance of X is obtain by doing
+
+rels      <- c(0.5,0.7,0.9,0.999)
+sigmas    <- ((1/rels) - beta_1^(2))
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
 sigma2_m  <- sigmas[2]
@@ -331,8 +333,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -344,7 +346,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. average bias for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) + scale_colour_grey() + theme_bw() 
 ```
 
 ```{r noModelPS_Noncov_re, fig.height=2.5,fig.width=10, dpi=300, fig.path='figure/', eval=FALSE, echo=FALSE}
@@ -362,8 +364,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -375,7 +377,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) + scale_colour_grey() + theme_bw() 
 ```
 
 ```{r noModelPS_Bias_RMSE_color_paper, fig.height=3.5,fig.width=10, dpi=300, fig.path='figure/', eval=FALSE,echo=FALSE}
@@ -392,8 +394,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -405,7 +407,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. average bias for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -423,8 +425,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -436,7 +438,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -457,8 +459,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -470,7 +472,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. average bias for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -488,8 +490,8 @@ results_long <- reshape(results_table, direction = "long", times = wide_vars, va
 names(results_long)[grep("time", names(results_long))] <- "method"
 names(results_long)[2:4] <- c("gammaX", "reliability","rho")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
 results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
@@ -501,7 +503,7 @@ results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long
 # Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
 # in each facet, method is represented by shape and color
 p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
