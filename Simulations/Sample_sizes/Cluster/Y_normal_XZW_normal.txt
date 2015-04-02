@@ -1,0 +1,16 @@
+cd Github/PS_MIEC/
+
+git pull
+
+cd Simulations/Simple_imputation/Cluster
+
+#!/bin/bash
+
+for i in {1..150}
+do
+qsub -N withinbs -cwd -l mem_free=4G,h_vmem=6G,h_fsize=1G, Y_normal_XZW_normal.sh $i
+done
+
+
+
+exit
