@@ -1,0 +1,118 @@
+\documentclass[]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage[margin=1in]{geometry}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Yenny Webb-Vargas},
+            pdftitle={Supplementary Materials},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+\setlength{\droptitle}{-2em}
+  \title{Supplementary Materials}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Yenny Webb-Vargas}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \date{}
+  \predate{}\postdate{}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+
+This is the online companion to the paper
+\href{http://biostats.bepress.com/jhubiostat/paper269/}{`An
+Imputation-Based Solution to Using Mismeasured Covariates in Propensity
+Score Analysis'}, by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter
+Murakami, and Elizabeth Stuart.
+
+You can see the details of the simulations, color figures and code by
+following the links:
+
+Normal scenario:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_normal_XZW_normal/}{Normal
+  `Y', normal (X,Z,W)}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Simple_imputation/Y_normal_XZW_normal/}{Normal
+  `Y', normal (X,Z,W), including a simple imputation method}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Sample_sizes/Y_normal_XZW_normal/}{Normal
+  `Y', normal (X,Z,W), where Z is a binary variable}
+\end{itemize}
+
+Non-normal scenarios:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_normal_XZW_mixture/}{Normal
+  `Y', mixture (X,Z,W)}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_bernoulli_XZW_normal/}{Bernoulli
+  `Y', normal (X,Z,W)}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_bernoulli_XZW_mixture/}{Bernoulli
+  `Y', mixture (X,Z,W)}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_mixture_XZW_normal/}{Mixture
+  `Y', normal (X,Z,W)}
+\item
+  \href{http://ywebbvar.github.io/PS_MIEC/Simulations/Y_mixture_XZW_mixture/}{Mixture
+  `Y', mixture (X,Z,W)}
+\end{itemize}
+
+You can see the
+\href{http://ywebbvar.github.io/PS_MIEC/MIEC_original/}{code for Guo,
+Little and McConnell's Multiple Imputation for External Calibration}, or
+download
+\href{http://ywebbvar.github.io/PS_MIEC/MIEC_original/MI-EC_algorithm.r}{the
+R script} we used in the simulations.
+
+\end{document}
