@@ -3,7 +3,8 @@ title: "Supplementary Materials"
 author: "Yenny Webb-Vargas"
 output:
   pdf_document:
-    keep_tex: true
+    keep_tex: yes
+  html_document: default
 ---
 
 This is the online companion to the paper ['An Imputation-Based Solution to Using Mismeasured Covariates in Propensity Score Analysis'](http://biostats.bepress.com/jhubiostat/paper269/), by Yenny Webb-Vargas, Kara Rudolph, David Lenis, Peter Murakami, and Elizabeth Stuart. 
@@ -13,8 +14,8 @@ You can see the details of the simulations, color figures and code by following 
 Normal scenario: 
 
 * [Normal 'Y', normal (X,Z,W)](http://ywebbvar.github.io/PS_MIEC/Simulations/Y_normal_XZW_normal/)
-* [Normal 'Y', normal (X,Z,W), including a simple imputation method](http://ywebbvar.github.io/PS_MIEC/Simulations/Simple_imputation/Y_normal_XZW_normal/)
-* [Normal 'Y', normal (X,Z,W), where Z is a binary variable](http://ywebbvar.github.io/PS_MIEC/Simulations/Sample_sizes/Y_normal_XZW_normal/)
+* [Normal 'Y', normal (X,Z,W), including a simple imputation method](http://ywebbvar.github.io/PS_MIEC/Simulations/Simple_imputation/)
+* [Normal 'Y', normal (X,Z,W), where Z is a binary variable](http://ywebbvar.github.io/PS_MIEC/Simulations/Sample_sizes/)
 
 Non-normal scenarios:
 
