@@ -2,7 +2,7 @@ cd Github/PS_MIEC/
 
 git pull
 
-cd Simulations/Simple_imputation/Cluster
+cd Simulations/Sample_sizes/Cluster
 
 #!/bin/bash
 

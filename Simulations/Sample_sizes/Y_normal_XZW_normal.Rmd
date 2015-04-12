@@ -5,7 +5,7 @@ output:
     toc: true
     toc_depth: 2
 ---
-
+These are results that different sample sizes for the main and calibration samples. They also include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$. This method performs similar to the uncongenial method, and both of these perform worse than using a naive approach.
 
 
 ```{r load_libraries, message=FALSE, warning=FALSE, echo=FALSE}
@@ -15,7 +15,7 @@ library(xtable)
 ```
 
 ```{r simulations, eval=TRUE, echo=FALSE}
-setwd("C:/Users/Yenny/Dropbox/2012 Research/Causal_Research/Code/ME and MI/Guo_Little_McConnell/20140610_Simulation_with_CI")
+setwd("~/GitHub/PS_MIEC/Simulations/Sample_sizes/Cluster")
 
 archive_names <- dir()[grep(".Rdata", dir())]
 
@@ -23,123 +23,123 @@ bigresults <- list()
 
 load(archive_names[1])
 
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]]
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]]<-results[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]]
 
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]]
+bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_s"]] <- results[["n_main_m"]][["sigma2_s"]][["n_calib_s"]]
 
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]]
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_s"]] <- results[["n_main_m"]][["sigma2_m"]][["n_calib_s"]]
 
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]]
-
-
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]]
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]]
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_s"]] <- results[["n_main_m"]][["sigma2_l"]][["n_calib_s"]]
 
 
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]]
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]]<-results[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]]
 
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]]
+bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_m"]] <- results[["n_main_m"]][["sigma2_s"]][["n_calib_m"]]
 
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]]
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_m"]] <- results[["n_main_m"]][["sigma2_m"]][["n_calib_m"]]
 
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]]
-
-
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_m"]] <- results[["n_main_m"]][["sigma2_l"]][["n_calib_m"]]
 
 
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]]
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]]<-results[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]]
 
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]]
+bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_l"]] <- results[["n_main_m"]][["sigma2_s"]][["n_calib_l"]]
 
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] 
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_l"]] <- results[["n_main_m"]][["sigma2_m"]][["n_calib_l"]]
 
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]]
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]]
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]]
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] 
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]]
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_l"]] <- results[["n_main_m"]][["sigma2_l"]][["n_calib_l"]]
 
 
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]<-results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]]
 
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]]
 
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] 
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]]<-results[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]]
 
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]]
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_s"]] <- results[["n_main_l"]][["sigma2_s"]][["n_calib_s"]]
+
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_s"]] <- results[["n_main_l"]][["sigma2_m"]][["n_calib_s"]] 
+
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_s"]] <- results[["n_main_l"]][["sigma2_l"]][["n_calib_s"]]
+
+
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]]<-results[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]]
+
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_m"]] <- results[["n_main_l"]][["sigma2_s"]][["n_calib_m"]]
+
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_m"]] <- results[["n_main_l"]][["sigma2_m"]][["n_calib_m"]] 
+
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_m"]] <- results[["n_main_l"]][["sigma2_l"]][["n_calib_m"]]
+
+
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]]<-results[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]]
+
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_l"]] <- results[["n_main_l"]][["sigma2_s"]][["n_calib_l"]]
+
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_l"]] <- results[["n_main_l"]][["sigma2_m"]][["n_calib_l"]] 
+
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_l"]] <- results[["n_main_l"]][["sigma2_l"]][["n_calib_l"]]
 
 for(i in archive_names[-1]) {
   load(i)
   
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]])
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]] <- cbind(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]], results[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]])
 
-  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]])
+  bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_s"]] <- cbind(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_s"]], results[["n_main_m"]][["sigma2_s"]][["n_calib_s"]])
 
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]])
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_s"]] <- cbind(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_s"]], results[["n_main_m"]][["sigma2_m"]][["n_calib_s"]])
 
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]])
-
-  
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]])
-
-  bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]])
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]])
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]])
-  
-  
-bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]])
-
-bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]])
-
-
-
-
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]])
-
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]])
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_s"]] <- cbind(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_s"]], results[["n_main_m"]][["sigma2_l"]][["n_calib_s"]])
 
   
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]])
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]] <- cbind(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]], results[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]])
 
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]])
+  bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_m"]] <- cbind(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_m"]], results[["n_main_m"]][["sigma2_s"]][["n_calib_m"]])
 
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]])
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_m"]] <- cbind(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_m"]], results[["n_main_m"]][["sigma2_m"]][["n_calib_m"]])
 
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]])
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_m"]] <- cbind(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_m"]], results[["n_main_m"]][["sigma2_l"]][["n_calib_m"]])
+  
+  
+bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]] <- cbind(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]], results[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]])
+
+bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_l"]] <- cbind(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_l"]], results[["n_main_m"]][["sigma2_s"]][["n_calib_l"]])
+
+bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_l"]] <- cbind(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_l"]], results[["n_main_m"]][["sigma2_m"]][["n_calib_l"]])
+
+bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_l"]] <- cbind(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_l"]], results[["n_main_m"]][["sigma2_l"]][["n_calib_l"]])
+
+
+
+
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]] <- cbind(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]], results[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]])
+
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_s"]] <- cbind(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_s"]], results[["n_main_l"]][["sigma2_s"]][["n_calib_s"]])
+
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_s"]] <- cbind(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_s"]], results[["n_main_l"]][["sigma2_m"]][["n_calib_s"]])
+
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_s"]] <- cbind(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_s"]], results[["n_main_l"]][["sigma2_l"]][["n_calib_s"]])
+
+  
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]] <- cbind(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]], results[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]])
+
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_m"]] <- cbind(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_m"]], results[["n_main_l"]][["sigma2_s"]][["n_calib_m"]])
+
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_m"]] <- cbind(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_m"]], results[["n_main_l"]][["sigma2_m"]][["n_calib_m"]])
+
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_m"]] <- cbind(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_m"]], results[["n_main_l"]][["sigma2_l"]][["n_calib_m"]])
   
 
-bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]])
+bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]] <- cbind(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]], results[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]])
 
-bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]])
+bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_l"]] <- cbind(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_l"]], results[["n_main_l"]][["sigma2_s"]][["n_calib_l"]])
 
-bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]])
+bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_l"]] <- cbind(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_l"]], results[["n_main_l"]][["sigma2_m"]][["n_calib_l"]])
 
-bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- cbind(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]])
+bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_l"]] <- cbind(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_l"]], results[["n_main_l"]][["sigma2_l"]][["n_calib_l"]])
   
 }
 
 #Number of simulations used
-N_sim <- ncol(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]])
+N_sim <- ncol(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_l"]])
 ```
 
 ```{r bias_RMSE_fun, echo=FALSE}
@@ -184,7 +184,7 @@ Definition of Parameters
 
 The causal effect is $\Delta = E(Y(1) - Y(0))$. We define a logistic regression model for the propensity score $p = P(T=1)$, where $T$ is the indicator of treatment assigned, $$f(T \mid X,Z,\psi) \thicksim Bernoulli( expit(\gamma_0 + \gamma_X X + \gamma_z Z)).$$ 
 
-We use $$f(X,Z) \thicksim N_2 \Bigl(\bigl(\begin{smallmatrix} 0 \\ 0 \end{smallmatrix} \bigr), \bigl(\begin{smallmatrix} 1 && \rho \\ \rho && 1\end{smallmatrix}\bigl)\Bigl).$$
+We use $$f(X,Z) \thicksim N_2 \Bigl(\bigl(\begin{smallmatrix} 0 \\ 0 \end{smallmatrix} \bigr), \bigl(\begin{smallmatrix} 1 && \n_calib \\ \n_calib && 1\end{smallmatrix}\bigl)\Bigl).$$
 
 We use the measurement error model as $f(W \mid T,X,Z) \thicksim N(\beta_0 + \beta_1 X, \sigma^2)$, and a distribution of the potential outcomes as $f(Y(T) \mid T,X,Z) \thicksim N(\Delta T + \delta_X X + \delta_Z Z, \tau^2)$.
 
@@ -200,21 +200,23 @@ n_calib <- 500
 # Distribution of T | X,Z
 gamma_0  <- 0 #This will determine the proportion receiving treatment
 gamma_Z  <- 0.4
-gamma_Xs <- 0.4
-gamma_Xl <- 1.2
+n_main_m <- 0.4
+n_main_l <- 1.2
 
 # Distribution of (X,Z)
-rho_l    <- 0.3
-rho_m    <- 0.6
-rho_h    <- 0.9
+n_calib_s    <- 0.3
+n_calib_m    <- 0.6
+n_calib_l    <- 0.9
 
 
 # Distribution of W | Y,X,Z
 beta_0   <- 0
 beta_1   <- 1
 
-rels      <- c(0.3,0.6,0.9,0.999)
-sigmas    <- (1/rels) - 1
+#The variance of X is obtain by doing
+
+rels      <- c(0.5,0.7,0.9,0.999)
+sigmas    <- ((1/rels) - beta_1^(2))
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
 sigma2_m  <- sigmas[2]
@@ -235,83 +237,83 @@ Simulation  |$N_{sim}$  |`r N_sim`  |   | $W$          |$\beta_0$|`r beta_0`
 |  |$n_{main}$ |`r n_main` |   |            |small $\sigma^2$ | `r round(sigma2_s,3)`
 $T$ |$\gamma_0$ |`r gamma_0`|   |          |moderate $\sigma^2$ | `r round(sigma2_m,3)`
 |  |$\gamma_Z$ |`r gamma_Z`|   |            |large $\sigma^2$ | `r round(sigma2_l,3)`
-|  |small $\gamma_X$ |`r gamma_Xs`|  |$Y$   |$\Delta$ | `r Delta`
-|  |large $\gamma_X$ |`r gamma_Xl`|  |      |$\delta_X$| `r delta_X`
-$(X,Z)$| low $\rho$ |`r rho_l` |  |        |$\delta_Z$| `r delta_Z` 
-|  | medium $\rho$|  `r rho_m` |      |        |$\tau^2$  | `r tau2`
-| | high $\rho$|  `r rho_h` |      |        | | 
+|  |small $\gamma_X$ |`r n_main_m`|  |$Y$   |$\Delta$ | `r Delta`
+|  |large $\gamma_X$ |`r n_main_l`|  |      |$\delta_X$| `r delta_X`
+$(X,Z)$| low $\n_calib$ |`r n_calib_s` |  |        |$\delta_Z$| `r delta_Z` 
+|  | medium $\n_calib$|  `r n_calib_m` |      |        |$\tau^2$  | `r tau2`
+| | high $\n_calib$|  `r n_calib_l` |      |        | | 
 
 
 
 ```{r create_table, eval=TRUE, echo=FALSE}
 # Since the results will be presented with reliabilities, instead of sigma2, I order them in decreasing sigma2.
 
-big_table <- bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_l"]], Delta)
+big_table <- bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_s"]], Delta)
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_l"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_s"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_l"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_s"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]], Delta))
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_m"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]], Delta))
 
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_l"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_m"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_m"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_m"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_s"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_m"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]], Delta))
-
-
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_l"]], Delta))
-
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]], Delta))
 
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_m"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_l"]][["n_calib_l"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_m"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_m"]][["n_calib_l"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_m"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_s"]][["n_calib_l"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]], Delta))
 
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_l"]][["rho_h"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_m"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_s"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_s"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_s"]], Delta))
 
-big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]], Delta))
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_s"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_m"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]], Delta))
+
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_l"]][["n_calib_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_m"]][["n_calib_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_s"]][["n_calib_l"]], Delta))
+
+big_table <- cbind(big_table, bias_RMSE_cov(bigresults[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]], Delta))
 
 big_table <- t(big_table)
 
-params_cols <- data.frame(gamma_X = gl(n=2,k=12,labels=c(gamma_Xs,gamma_Xl)), reliability = rep(rels,6), rho = rep(c(rho_l, rho_m, rho_h), 2, each=4))
+params_cols <- data.frame(n_main = gl(n=2,k=12,labels=c(2500,10000)), reliability = rep(rels,6), n_calib = rep(c(100,500,1000), 2, each=4))
 all_cols <- matrix(NA,24*3,3) #24 combinations of params, 3 =c(bias, RMSE, Cov)
 all_cols[seq(1,24*3,by=3),] <- as.numeric(as.matrix(params_cols))
 
 print_table <- cbind(all_cols, rownames(big_table), round(big_table,2))
 rownames(print_table) <- NULL
-colnames(print_table)[1:4] <- c("$\\gamma_X$", "Reliability", "$\\rho$", ".")
+colnames(print_table)[1:4] <- c("$n_main$", "Reliability", "$n_calib$", ".")
 ```
 
-```{r print_table, results='asis',eval=FALSE, echo=FALSE}
+```{r print_table, results='asis',eval=TRUE, echo=FALSE}
 # Big table with all results
 print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
 ```
@@ -329,22 +331,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[1] <- "Abs(Bias)" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
+# Scatterplot of reliability vs. average bias for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~n_main_F+n_calib_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) + scale_colour_grey() + theme_bw() 
 ```
 
 ```{r noModelPS_Noncov_re, fig.height=2.5,fig.width=10, dpi=300, fig.path='figure/', eval=FALSE, echo=FALSE}
@@ -360,22 +362,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[2] <- "95% CI Coverage" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
+# Scatterplot of reliability vs. non coverage for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) + scale_colour_grey() + theme_bw() 
+p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~n_main_F+n_calib_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) + scale_colour_grey() + theme_bw() 
 ```
 
 ```{r noModelPS_Bias_RMSE_color_paper, fig.height=3.5,fig.width=10, dpi=300, fig.path='figure/', eval=FALSE,echo=FALSE}
@@ -390,22 +392,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[1] <- "Abs(Bias)" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
+# Scatterplot of reliability vs. average bias for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~n_main_F+n_calib_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -421,22 +423,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[2] <- "95% CI Coverage" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
+# Scatterplot of reliability vs. non coverage for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~n_main_F+n_calib_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -455,22 +457,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[1] <- "Abs(Bias)" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. average bias for each combination of gammaX and rho
+# Scatterplot of reliability vs. average bias for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~gammaX_F+rho_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p <- qplot(reliability, abs(average), data=subset(results_long, metric != "Cov"), linetype=method_relev, color=method_relev, facets=metric~n_main_F+n_calib_F, size=I(1.2), geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -486,22 +488,22 @@ rownames(big_table_4graph) <- NULL
 results_table <- data.frame(mode = factor("Model + No PS"), full_cols, metric = metrics, big_table_4graph)
 results_long <- reshape(results_table, direction = "long", times = wide_vars, varying = wide_vars, v.names = "average")
 names(results_long)[grep("time", names(results_long))] <- "method"
-names(results_long)[2:4] <- c("gammaX", "reliability","rho")
+names(results_long)[2:4] <- c("n_main", "reliability","n_calib")
 results_long$method <- factor(results_long$method)
-levels(results_long$method) <- c("MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
-results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
+levels(results_long$method) <- c("Simple MI", "MI-EC (Y_obs,Z)", "Uncongenial MI-EC","MI-EC (T,Z)","Congenial MI-EC","Naive (W)","Truth (X)")
+results_long$method_relev <- factor(results_long$method, levels=c("Truth (X)","Naive (W)", "Simple MI", "Congenial MI-EC", "MI-EC (Y_obs,Z)", "MI-EC (T,Z)", "Uncongenial MI-EC"))
 
 
-results_long$gammaX_F <- factor(results_long$gammaX, levels = c(0.4,1.2),labels = paste("GammaX", c(0.4,1.2)))
-results_long$rho_F    <- factor(results_long$rho, levels = c(0.3,0.6,0.9), labels = paste("Cor(X,Z)", c(0.3,0.6,0.9)))
+results_long$n_main_F <- factor(results_long$n_main, levels = c(2500,10000),labels = paste("n_main", c(2500,10000)))
+results_long$n_calib_F    <- factor(results_long$n_calib, levels = c(100,500,1000), labels = paste("n_calib", c(100,500,1000)))
 levels(results_long$metric)[2] <- "95% CI Coverage" 
 
 results_long <- results_long[results_long$method != "MI-EC (T,Z)" & results_long$method != "MI-EC (Y_obs,Z)", ]
 
-# Scatterplot of reliability vs. non coverage for each combination of gammaX and rho
+# Scatterplot of reliability vs. non coverage for each combination of n_main and n_calib
 # in each facet, method is represented by shape and color
-p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~gammaX_F+rho_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
-p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted")) 
+p <- qplot(reliability, average, data=subset(results_long, metric == "95% CI Coverage"), linetype=method_relev, color=method_relev,facets=metric~n_main_F+n_calib_F, size=I(1.2),  geom=c("line"), xlab="Reliability", ylab="") 
+p + scale_linetype_manual(values=c("Uncongenial MI-EC"="longdash","Congenial MI-EC"= "solid", "Naive (W)"="dotdash", "Truth (X)"="dotted", "Simple MI"="twodash")) 
 ```
 
 
@@ -510,26 +512,17 @@ Code for simulation
 -------------------------
 
 ```{r, eval=FALSE}
-################################
-##  Simulation of propensity score with 
-##   covariates measured with error
-
-##  This code was copied from 20140603_Simulation_with_CI\Simulation_with_CI.R:
-##   - Fixes the error on having the doubly robust method on the naive and true regressions
-##   - Adds intro, and command to import the iteration from 
-##     the terminal 'i'
-##   - Changes location of sourced file
-##   - Changes number of simulations to 10
-##   - Changes seed to XXX+i
-##   - Eliminates the part that creates the table
-##   - Changes the name of the saved results Rdata file
-
-##  This simulation includes the following changes:
-##   - Adds CIs and standard deviations
-##   - Added reliabilities of 0.3, 0.6
-##   - Uses m=12, n=3  (as all the previous simulations)
-
+################################ Simulation of propensity score with covariates
+##measured with error
+##
+##  This simulation includes the following changes: 
+##  - Changes size of calibration sample
+##  method. 
+##
 ##  It also does:
+##   - Implements simple imputation method
+##   - Removes reliabilities < 0.5
+##   - Uses m=12, n=3  (as all the previous simulations)
 ##   - Runs reliabilities 0.9 and 0.999
 ##   - Modified the 'sampling' function to also run an 'extra small' variance (with reliability = 0.99)
 ##   - Eliminates CC, RP. Only calculates naive. 
@@ -538,20 +531,9 @@ Code for simulation
 ##   - Uses both a correct model (uses X and Z in the 
 ##      estimation model) as well as IPTW
 
-##  We use this code to evaluate how sensitive MIEc is to the distributional assumptions. To do that
-##   - We assume that Y comes from a normal distribution and 
-##   - We assume that X comes from a normal distribution
-##   - This is the benchmark (that is, all the distributional assumptions are corrrect)
-##   - We add the library "ecodist"
+##  We use this code to evaluate a simple imputation procedure
 
-##  We also changed the parameter Delta, the treatment effect, to 2. This reduces the unbalances in Y (when Delta was equal to 5 most of
-##  the values for Y1 were 1, for the binary case)
-
-##  We update the definition of reliability
-
-
-library(ggplot2)
-#library(gridExtra)
+cluster=TRUE
 
 library(mvtnorm)
 library(mitools)
@@ -559,7 +541,9 @@ library(MCMCpack)
 library(xtable)
 library(survey)
 library(ecodist)
-source("MI-EC algorithm.r")
+
+if(cluster){source("/home/bst/student/ywebbvar/Github/PS_MIEC/MIEC_original/MI-EC_algorithm.r")
+}else{source("~/GitHub/PS_MIEC/MIEC_original/MI-EC_algorithm.r")}
 
 
 ## ----expitlogit----------------------------------------------------------
@@ -568,27 +552,19 @@ logit <- function(p) log(p/(1-p))
 
 
 ## ----, eval=TRUE---------------------------------------------------------
-temp <- commandArgs(TRUE)
-i    <-as.numeric(temp[1])
-
-
-## ----load_libraries, message=FALSE, warning=FALSE------------------------
-
-library(mvtnorm)
-library(mitools)
-library(MCMCpack)
-library(xtable)
-library(survey)
-library(ecodist)
-#library(Gmisc, verbose=FALSE) #verbose option does nothing when using knitr
-source("MI-EC algorithm.r")
+if(cluster){
+  temp <- commandArgs(TRUE)
+  i    <-as.numeric(temp[1])
+}else{
+  i = 1
+}
 
 
 ## ----def_params----------------------------------------------------------
 # Sample size and number of simulations
-n_main  <- 2500
-n_calib <- 500
-N_sim   <- 10
+N_main  <- c(2500,10000)
+N_calib <- c(100,500,1000)
+N_sim   <- ifelse(cluster, 10, 2)
 
 # Distribution of T | X,Z
 gamma_0  <- 0 #This will determine the proportion receiving treatment
@@ -608,7 +584,7 @@ beta_1   <- 1
 
 #The variance of X is obtain by doing
 
-rels      <- c(0.3,0.6,0.9,0.999)
+rels      <- c(0.5,0.7,0.9,0.999)
 sigmas    <- ((1/rels) - beta_1^(2))
 sigma2_xs <- sigmas[4]
 sigma2_s  <- sigmas[3]
@@ -622,329 +598,366 @@ delta_Z  <- 0.1
 tau2     <- 1
 
 
-## ----expitlogit----------------------------------------------------------
-expit <- function(x) exp(x)/(1+exp(x))
-logit <- function(p) log(p/(1-p))
-
-
 ## ----sampling_fun--------------------------------------------------------
-sampling <- function(cor_level, X_effect, m_error){
-    
-    # Sampling ($X,Z$) from a multivariate distribution, according to a set level of correlation.
-    if(cor_level == "low"){
-       sigma_X_Z <- matrix(c(1,rho_l,rho_l,1), ncol=2)
-     }else if(cor_level == "med") {
-       sigma_X_Z = matrix(c(1,rho_m,rho_m,1), ncol=2)
-     }else if(cor_level == "high") {
-       sigma_X_Z = matrix(c(1,rho_h,rho_h,1), ncol=2)
-     }else {stop("Correlation level must be 'high', 'med', or 'low'")}
-    
-    X_Z <- rmvnorm(n_main+n_calib, mean = c(0,0), sigma = sigma_X_Z)
-    colnames(X_Z) <- c("X", "Z")
-    
-    
-    # Sample Y(0), Y(1) \mid X,Z
-    
-    Y0 <- rnorm(n_main+n_calib, mean=(delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), 
-                sqrt(tau2))
-    Y1 <- rnorm(n_main+n_calib, mean=(Delta + delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), sqrt(tau2))
-    
-    #Y1 <- Y0 + Delta     # rank preserving
-    
-    
-    # Sample from the distribution of $T \mid X,Z,\psi$
-    
-    if(X_effect == "small"){
-       logit_T <- gamma_0 + gamma_Xs*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
-     } else if(X_effect == "large") {
-       logit_T <- gamma_0 + gamma_Xl*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
-     } else {stop("Effect of X must be 'small' or 'large'")}
-    
-    T <- rbinom(n_main+n_calib, 1, p= expit(logit_T))
-    
-    
-    # Creating Y_obs given Y(0), Y(1), T
-    
-    Y_obs <- Y1*T + Y0*(1-T)
-    
-    
-    #Sample from the distribution of $W \mid T,X,Z$
-        
-    if(m_error == "small"){
-        W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_s))
-     } else if(m_error == "moderate") {
-        W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_m))
-     } else if(m_error == "large") {
-        W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_l))
-     } else if(m_error == "extra small") {
-        W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_xs))
-     } else {stop("Measurement error must be 'extra small', 'small', 'moderate', or 'large'")}
-    
-    
-    #Setting datasets for calibration and for main inference
-    
-    i.calib <- 1:n_calib
-    i.main  <- (n_calib+1):(n_calib+n_main)
-    
-    data.main  <- data.frame(W = W[i.main], T = T[i.main], Z=X_Z[i.main,"Z"], 
-                             Y_obs = Y_obs[i.main])
-    data.cause <- data.frame(p= expit(logit_T[i.main]), X= X_Z[i.main,"X"], Y0 = Y0[i.main], Y1 = Y1[i.main])
-    data.calib <- data.frame(X= X_Z[i.calib,"X"], W = W[i.calib])
-    
-    return(list(main=data.main, calib=data.calib, cause=data.cause))
-    }
+sampling <- function(cor_level, X_effect, m_error, n_main, n_calib){
+  
+  # Sampling ($X,Z$) from a multivariate distribution, according to a set level of correlation.
+  if(cor_level == "low"){
+    sigma_X_Z <- matrix(c(1,rho_l,rho_l,1), ncol=2)
+  }else if(cor_level == "med") {
+    sigma_X_Z = matrix(c(1,rho_m,rho_m,1), ncol=2)
+  }else if(cor_level == "high") {
+    sigma_X_Z = matrix(c(1,rho_h,rho_h,1), ncol=2)
+  }else {stop("Correlation level must be 'high', 'med', or 'low'")}
+  
+  X_Z <- rmvnorm(n_main+n_calib, mean = c(0,0), sigma = sigma_X_Z)
+  colnames(X_Z) <- c("X", "Z")
+  
+  
+  # Sample Y(0), Y(1) \mid X,Z
+  
+  Y0 <- rnorm(n_main+n_calib, mean=(delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), 
+              sqrt(tau2))
+  Y1 <- rnorm(n_main+n_calib, mean=(Delta + delta_X*X_Z[,"X"] + delta_Z*X_Z[,"Z"]), sqrt(tau2))
+  
+  #Y1 <- Y0 + Delta     # rank preserving
+  
+  
+  # Sample from the distribution of $T \mid X,Z,\psi$
+  
+  if(X_effect == "small"){
+    logit_T <- gamma_0 + gamma_Xs*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
+  } else if(X_effect == "large") {
+    logit_T <- gamma_0 + gamma_Xl*X_Z[,"X"] + gamma_Z*X_Z[,"Z"]
+  } else {stop("Effect of X must be 'small' or 'large'")}
+  
+  T <- rbinom(n_main+n_calib, 1, p= expit(logit_T))
+  
+  
+  # Creating Y_obs given Y(0), Y(1), T
+  
+  Y_obs <- Y1*T + Y0*(1-T)
+  
+  
+  #Sample from the distribution of $W \mid T,X,Z$
+  
+  if(m_error == "small"){
+    W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_s))
+  } else if(m_error == "moderate") {
+    W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_m))
+  } else if(m_error == "large") {
+    W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_l))
+  } else if(m_error == "extra small") {
+    W <- rnorm(n_main+n_calib, mean= (beta_0+beta_1*X_Z[,"X"]), sd=sqrt(sigma2_xs))
+  } else {stop("Measurement error must be 'extra small', 'small', 'moderate', or 'large'")}
+  
+  
+  #Setting datasets for calibration and for main inference
+  
+  i.calib <- 1:n_calib
+  i.main  <- (n_calib+1):(n_calib+n_main)
+  
+  data.main  <- data.frame(W = W[i.main], T = T[i.main], Z=X_Z[i.main,"Z"], 
+                           Y_obs = Y_obs[i.main])
+  data.cause <- data.frame(p= expit(logit_T[i.main]), X= X_Z[i.main,"X"], Y0 = Y0[i.main], Y1 = Y1[i.main])
+  data.calib <- data.frame(X= X_Z[i.calib,"X"], W = W[i.calib])
+  
+  return(list(main=data.main, calib=data.calib, cause=data.cause))
+}
+
+
 
 
 ## ----Correction_functions------------------------------------------------
 true_regression <- function(data_main, Xtrue){
-            data_main$Xtrue <- Xtrue
-            
-            model <- glm(T~Xtrue+Z, data=data_main, family=binomial)
-            p_hat <- predict(model,type="response")
-            
-            data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
-            
-            design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
-            survey.model <- svyglm(Y_obs~T, design=design.ate)
-            coef         <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
-
-            CI_low <- coef["Estimate"] + qnorm(0.025)*coef["Std. Error"]
-            CI_upp <- coef["Estimate"] + qnorm(0.975)*coef["Std. Error"]
-                    
-            coef <- cbind(coef["Estimate"],coef["Std. Error"],CI_low, CI_upp)
-            colnames(coef) <- c("results", "se", "(lower", "upper)")
-            
-            return(coef)
-            }
+  data_main$Xtrue <- Xtrue
+  
+  model <- glm(T~Xtrue+Z, data=data_main, family=binomial)
+  p_hat <- predict(model,type="response")
+  
+  data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+  
+  design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
+  survey.model <- svyglm(Y_obs~T, design=design.ate)
+  coef         <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  
+  CI_low <- coef["Estimate"] + qnorm(0.025)*coef["Std. Error"]
+  CI_upp <- coef["Estimate"] + qnorm(0.975)*coef["Std. Error"]
+  
+  coef <- cbind(coef["Estimate"],coef["Std. Error"],CI_low, CI_upp)
+  colnames(coef) <- c("results", "se", "(lower", "upper)")
+  
+  return(coef)
+}
 
 
 naive_regression <- function(data_main){
-            model <- glm(T ~ W + Z, data=data_main, family=binomial)
-            p_hat <- predict(model,type="response")
- 
-            data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
-            
-            design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
-            survey.model <- svyglm(Y_obs~T, design=design.ate)
-            coef         <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  model <- glm(T ~ W + Z, data=data_main, family=binomial)
+  p_hat <- predict(model,type="response")
+  
+  data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+  
+  design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
+  survey.model <- svyglm(Y_obs~T, design=design.ate)
+  coef         <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  
+  CI_low <- coef["Estimate"] + qnorm(0.025)*coef["Std. Error"]
+  CI_upp <- coef["Estimate"] + qnorm(0.975)*coef["Std. Error"]
+  
+  coef <- cbind(coef["Estimate"],coef["Std. Error"],CI_low, CI_upp)
+  colnames(coef) <- c("results", "se", "(lower", "upper)")
+  
+  return(coef)
+}
 
-            CI_low <- coef["Estimate"] + qnorm(0.025)*coef["Std. Error"]
-            CI_upp <- coef["Estimate"] + qnorm(0.975)*coef["Std. Error"]
-                    
-            coef <- cbind(coef["Estimate"],coef["Std. Error"],CI_low, CI_upp)
-            colnames(coef) <- c("results", "se", "(lower", "upper)")
-            
-            return(coef)
-            }
 
+simple_imputation <- function(data_main, data_calib, N_data=12*3){
+  #1) estimate the variance of the error sigma^2 in the calibration sample
+  
+  sd_XW <- sd(lm(W ~ X-1, data=data_calib)$res)
+  
+  #2) generate an error variable in a multiple imputation setting following 
+  #   N(0,sigma^2) to be subtracted (or added) to the observed variable X, over 
+  #   N datasets (following their approach to combine across datasets).
+  
+  errors <- sapply(1:N_data, function(n) rnorm(nrow(data_main), mean=0, sd=sd_XW))
+  X_imp  <- data_main$W - errors
+  
+  delta_MI <- matrix(NA,ncol=ncol(X_imp),nrow=2)
+  
+  MI_data  <- data.frame(
+    T = data_main[,"T"],
+    Z = data_main[,"Z"],
+    Y_obs = data_main[,"Y_obs"])
+  
+  for(k in 1:ncol(X_imp)){
+    MI_data$X <- X_imp[,k]
+    model <- glm(T ~ X + Z, data=MI_data, family=binomial)
+    p_hat <- predict(model,type="response")
+    
+    MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+    
+    design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
+    survey.model <- svyglm(Y_obs~T, design=design.ate)
+    delta_MI[,k] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  }
+  
+  
+  estimate.mitools <- summary(MIcombine(results = as.list(delta_MI[1,]), 
+                                        variances = as.list(delta_MI[2,]^2)))[,-5]
+  return(estimate.mitools)   
+}
 
 ## ----MIEC_funs-----------------------------------------------------------
-multiple_imputation_EC   <- function(data_main, data_calib, option="Ycov"){
-            #Option: select 'Ycov', 'noT', 'noY', 'noT'
-            # Ycov (Y covariate) uses $T$ as outcome, $Z$ and $Y_{obs}$ as helpful covariates
-            # noY (no Y) uses $T$ as outcome, $Z$ as helpful covariate
-            # noT (no T) uses $Y_{obs}$ as outcome, $Z$ as helpful covariate
-            # noTY (no T, nor Y) uses no outcome, $Z$ as helpful covariate
+multiple_imputation_EC   <- function(data_main, data_calib, option="Yout",n_main, n_calib){
+  #Option: select 'Ycov', 'noT', 'noY', 'noT'
+  # Yout (includes Y) uses $T$ as outcome, $Z$ and $Y_{obs}$ as helpful covariates
+  # noY (no Y) uses $T$ as outcome, $Z$ as helpful covariate
+  # noT (no T) uses $Y_{obs}$ as outcome, $Z$ as helpful covariate
+  # noTY (no T, nor Y) uses no outcome, $Z$ as helpful covariate
   
-            # Other parameters for MIEC/ two-stage imputation procedure
-            m <- 12 #Number of draws from parameter distribution
-            n <- 3  #Number of samples (and imputations) for each m
-            
-            # Generating Multiple Imputations:
-            
-            if(option=="Yout"){ # Y as a helpful covariate
-              q <- 2  #Dimension of T. T = (T,Y_obs)
-              r <- 1  #Dimension of Z. Z = (Z)
-              MIEC_data <- MIEC(data_main[,c("W","T","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
-            
-            }else if(option=="noY"){
-              q <- 1  #Dimension of T. T = T
-              r <- 1  #Dimension of Z. Z = Z
-              MIEC_data <- MIEC(data_main[,c("W","T","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+  # Other parameters for MIEC/ two-stage imputation procedure
+  m <- 12 #Number of draws from parameter distribution
+  n <- 3  #Number of samples (and imputations) for each m
+  
+  # Generating Multiple Imputations:
+  
+  if(option=="Yout"){ # Y as a helpful covariate
+    q <- 2  #Dimension of T. T = (T,Y_obs)
+    r <- 1  #Dimension of Z. Z = (Z)
+    MIEC_data <- MIEC(data_main[,c("W","T","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    
+  }else if(option=="noY"){
+    q <- 1  #Dimension of T. T = T
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","T","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    
+  }else if(option=="noT"){
+    q <- 1  #Dimension of T. T = Y
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    
+  }else if(option=="noTY"){
+    q <- 0  #Dimension of T. T = NULL
+    r <- 1  #Dimension of Z. Z = Z
+    MIEC_data <- MIEC(data_main[,c("W","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
+    
+  }else {stop("Only options 'Yout', 'noT', 'noY', 'noT' are accepted")}
+  
+  
+  imputed_cols <- (q+r+1):ncol(MIEC_data)
+  
+  delta_MI <- matrix(NA,ncol=length(imputed_cols),nrow=2)
+  
+  MI_data  <- data.frame(
+    T = data_main[,"T"],
+    Z = data_main[,"Z"],
+    Y_obs = data_main[,"Y_obs"])
+  
+  for(k in imputed_cols){
+    MI_data$X <- MIEC_data[,k]
+    model <- glm(T ~ X + Z, data=MI_data, family=binomial)
+    p_hat <- predict(model,type="response")
+    
+    MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+    
+    design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
+    survey.model <- svyglm(Y_obs~T, design=design.ate)
+    delta_MI[,k-(q+r)] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
+  }
+  
+  
+  estimate.mitools <- summary(MIcombine(results = as.list(delta_MI[1,]), 
+                                        variances = as.list(delta_MI[2,]^2)))[,-5]
+  
+  
+  combine_foo <- function(coef, vars){
+    
+    # coefficient of interest (gamma_x_hat)
+    gamma_hat_MI <- mean(coef)
+    
+    # The following code gives non-sensical results
+    #Calculating W,B,U
+    gamma_matrix <- matrix(coef, ncol=n, byrow=TRUE)
+    mean_n_gamma_hat <- apply(gamma_matrix, 1, mean)
+    
+    W <- sum(sapply(1:m, function(x){
+      sum((gamma_matrix[x,] - mean_n_gamma_hat[x])^2)
+    }))/(m*(n-1))
+    B <- sum((mean_n_gamma_hat - gamma_hat_MI)^2)/(m-1)
+    
+    U <- mean(vars)
+    
+    # Calculating variance of our coefficient of interest
+    T_MI <- U - W + (1+1/m)*B - W/n
+    if(T_MI < 0) T_MI <- (1+1/m)*B
+    
+    # Confidence intervals are done with t-distribution with these
+    # degrees of freedom
+    df <- 1/(((((1+1/m)*B)^2)/((m-1)*T_MI^2)) + 
+               ((((1+1/n)*W)^2)/(m*(n-1)*T_MI^2))) #Note that here was the mistake
+    if(T_MI < 0) df <- m-1
+    
+    CI_low <- gamma_hat_MI + qt(0.025, df=df)*sqrt(T_MI)
+    CI_upp <- gamma_hat_MI + qt(0.975, df=df)*sqrt(T_MI)
+    
+    return(c(coef=gamma_hat_MI,se=sqrt(T_MI), CI_low=CI_low, CI_upp=CI_upp))
+  }
+  
+  
+  estimate.reiter  <- combine_foo(delta_MI[1,], delta_MI[2,]^2)
+  
+  return(rbind(estimate.mitools,estimate.reiter))
+}
 
-            }else if(option=="noT"){
-              q <- 1  #Dimension of T. T = Y
-              r <- 1  #Dimension of Z. Z = Z
-              MIEC_data <- MIEC(data_main[,c("W","Y_obs","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
-              
-            }else if(option=="noTY"){
-              q <- 0  #Dimension of T. T = NULL
-              r <- 1  #Dimension of Z. Z = Z
-              MIEC_data <- MIEC(data_main[,c("W","Z")],data_calib,n_calib,n_main,M=m,N=n,K=q,S=r)
-                
-            }else {stop("Only options 'Ycov', 'noT', 'noY', 'noT' are accepted")}
-            
-            
-            imputed_cols <- (q+r+1):ncol(MIEC_data)
-                         
-            delta_MI <- matrix(NA,ncol=length(imputed_cols),nrow=2)
-                         
-            MI_data  <- data.frame(
-                T = data_main[,"T"],
-                Z = data_main[,"Z"],
-                Y_obs = data_main[,"Y_obs"])
-                
-            for(k in imputed_cols){
-              MI_data$X <- MIEC_data[,k]
-              model <- glm(T ~ X + Z, data=MI_data, family=binomial)
-              p_hat <- predict(model,type="response")
-            
-              MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
-            
-              design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
-              survey.model <- svyglm(Y_obs~T, design=design.ate)
-              delta_MI[,k-(q+r)] <- summary(survey.model)$coeff["T",c("Estimate", "Std. Error")]
-            }
-            
-            
-            estimate.mitools <- summary(MIcombine(results = as.list(delta_MI[1,]), 
-                                                  variances = as.list(delta_MI[2,]^2)))[,-5]
-            
-            
-            combine_foo <- function(coef, vars){
-                             
-                # coefficient of interest (gamma_x_hat)
-                gamma_hat_MI <- mean(coef)
-                                 
-                # The following code gives non-sensical results
-                #Calculating W,B,U
-                gamma_matrix <- matrix(coef, ncol=n, byrow=TRUE)
-                mean_n_gamma_hat <- apply(gamma_matrix, 1, mean)
-                                 
-                W <- sum(sapply(1:m, function(x){
-                         sum((gamma_matrix[x,] - mean_n_gamma_hat[x])^2)
-                            }))/(m*(n-1))
-                B <- sum((mean_n_gamma_hat - gamma_hat_MI)^2)/(m-1)
-                                 
-                U <- mean(vars)
-                                 
-                # Calculating variance of our coefficient of interest
-                T_MI <- U - W + (1+1/m)*B - W/n
-                if(T_MI < 0) T_MI <- (1+1/m)*B
-                                 
-                # Confidence intervals are done with t-distribution with these
-                # degrees of freedom
-                df <- 1/(((((1+1/m)*B)^2)/((m-1)*T_MI^2)) + 
-                      ((((1+1/n)*W)^2)/(m*(n-1)*T_MI^2))) #Note that here was the mistake
-                if(T_MI < 0) df <- m-1
-                                 
-                CI_low <- gamma_hat_MI + qt(0.025, df=df)*sqrt(T_MI)
-                CI_upp <- gamma_hat_MI + qt(0.975, df=df)*sqrt(T_MI)
-                                 
-                return(c(coef=gamma_hat_MI,se=sqrt(T_MI), CI_low=CI_low, CI_upp=CI_upp))
-            }
-
-            
-            estimate.reiter  <- combine_foo(delta_MI[1,], delta_MI[2,]^2)
-                                     
-            return(rbind(estimate.mitools,estimate.reiter))
-            }
 
 
 
 ## ----simulation_fun------------------------------------------------------
-full_simulation <- function(cor_level = "low", X_effect = "large", m_error = "large"){
-        data <- sampling(cor_level = cor_level, X_effect = X_effect, m_error = m_error)
-
-        Xtrue     <- true_regression(data$main, data$cause$X)
-        naive     <- naive_regression(data$main)
-        MIEC_Yout <- multiple_imputation_EC(data$main, data$calib, "Yout")
-        MIEC_noY  <- multiple_imputation_EC(data$main, data$calib, "noY")
-        MIEC_noT  <- multiple_imputation_EC(data$main, data$calib, "noT")
-        MIEC_noTY <- multiple_imputation_EC(data$main, data$calib, "noTY")
-        
-        result_table      <- rbind(Xtrue, naive,MIEC_Yout, MIEC_noY, MIEC_noT, MIEC_noTY)
-        mean_insample     <- mean(data$cause$Y1 - data$cause$Y0) 
-        result_string     <- c(mean_insample,t(result_table))
-        
-        names(result_string) <- c("insample mean", 
-                                  paste0("Xtrue.", colnames(Xtrue)),
-                                  paste0("naive.", colnames(Xtrue)),
-                                  paste0("MIEC_Yout_mi.", colnames(Xtrue)),
-                                  paste0("MIEC_Yout_re.", colnames(Xtrue)),
-                                  paste0("MIEC_noY_mi.", colnames(Xtrue)),
-                                  paste0("MIEC_noY_re.", colnames(Xtrue)),
-                                  paste0("MIEC_noT_mi.", colnames(Xtrue)),
-                                  paste0("MIEC_noT_re.", colnames(Xtrue)),
-                                  paste0("MIEC_noTY_mi.", colnames(Xtrue)),
-                                  paste0("MIEC_noTY_re.", colnames(Xtrue))
-                                  )
-        
-        return(result_string)
-        }
+full_simulation <- function(n_main=2500, n_calib=500,cor_level = "low", X_effect = "large", m_error = "large"){
+  data <- sampling(cor_level = cor_level, X_effect = X_effect, m_error = m_error,n_main=n_main, n_calib=n_calib)
+  
+  Xtrue     <- true_regression(data$main, data$cause$X)
+  naive     <- naive_regression(data$main)
+  MIEC_Yout <- multiple_imputation_EC(data$main, data$calib, "Yout",n_main=n_main, n_calib=n_calib)
+  MIEC_noY  <- multiple_imputation_EC(data$main, data$calib, "noY",n_main=n_main, n_calib=n_calib)
+  MIEC_noT  <- multiple_imputation_EC(data$main, data$calib, "noT",n_main=n_main, n_calib=n_calib)
+  MIEC_noTY <- multiple_imputation_EC(data$main, data$calib, "noTY",n_main=n_main, n_calib=n_calib)
+  MI_simple <- simple_imputation(data$main, data$calib)
+  
+  result_table      <- rbind(Xtrue, naive,MI_simple,MIEC_Yout, MIEC_noY, MIEC_noT, MIEC_noTY)
+  mean_insample     <- mean(data$cause$Y1 - data$cause$Y0) 
+  result_string     <- c(mean_insample,t(result_table))
+  
+  names(result_string) <- c("insample mean", 
+                            paste0("Xtrue.", colnames(Xtrue)),
+                            paste0("naive.", colnames(Xtrue)),
+                            paste0("MI_simple.", colnames(Xtrue)),
+                            paste0("MIEC_Yout_mi.", colnames(Xtrue)),
+                            paste0("MIEC_Yout_re.", colnames(Xtrue)),
+                            paste0("MIEC_noY_mi.", colnames(Xtrue)),
+                            paste0("MIEC_noY_re.", colnames(Xtrue)),
+                            paste0("MIEC_noT_mi.", colnames(Xtrue)),
+                            paste0("MIEC_noT_re.", colnames(Xtrue)),
+                            paste0("MIEC_noTY_mi.", colnames(Xtrue)),
+                            paste0("MIEC_noTY_re.", colnames(Xtrue))
+  )
+  
+  return(result_string)
+}
 
 
 ## ----simulations,cache=TRUE, eval=TRUE-----------------------------------
 time1 <- Sys.time()
-set.seed(62382+i) 
+set.seed(954054+i) 
 
 results <- list()
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "extra small"))
+results[["n_main_m"]][["sigma2_xs"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "extra small"))
+results[["n_main_m"]][["sigma2_xs"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "extra small"))
-
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "extra small"))
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "extra small"))
-
-results[["gamma_Xl"]][["sigma2_xs"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "extra small"))
+results[["n_main_m"]][["sigma2_xs"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
 
+results[["n_main_l"]][["sigma2_xs"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
+results[["n_main_l"]][["sigma2_xs"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
-results[["gamma_Xs"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "small"))
-
-results[["gamma_Xs"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "small"))
-
-results[["gamma_Xs"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "small"))
-
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "small"))
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "small"))
-
-results[["gamma_Xl"]][["sigma2_s"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "small"))
+results[["n_main_l"]][["sigma2_xs"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "extra small"))
 
 
 
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "moderate"))
+results[["n_main_m"]][["sigma2_s"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "small"))
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "moderate"))
+results[["n_main_m"]][["sigma2_s"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "small"))
 
-results[["gamma_Xs"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "moderate"))
-
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "moderate"))
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "moderate"))
-
-results[["gamma_Xl"]][["sigma2_m"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "moderate"))
+results[["n_main_m"]][["sigma2_s"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "small"))
 
 
+results[["n_main_l"]][["sigma2_s"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "small"))
+
+results[["n_main_l"]][["sigma2_s"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "small"))
+
+results[["n_main_l"]][["sigma2_s"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "small"))
 
 
-results[["gamma_Xs"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "small", m_error = "large"))
-
-results[["gamma_Xs"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "small", m_error = "large"))
-
-results[["gamma_Xs"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "small", m_error = "large"))
 
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_l"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "low", X_effect = "large", m_error = "large"))
+results[["n_main_m"]][["sigma2_m"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "moderate"))
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_m"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "med", X_effect = "large", m_error = "large"))
+results[["n_main_m"]][["sigma2_m"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "moderate"))
 
-results[["gamma_Xl"]][["sigma2_l"]][["rho_h"]] <- sapply(1:N_sim, function(x) full_simulation(cor_level = "high", X_effect = "large", m_error = "large"))
+results[["n_main_m"]][["sigma2_m"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "moderate"))
+
+
+results[["n_main_l"]][["sigma2_m"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "moderate"))
+
+results[["n_main_l"]][["sigma2_m"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "moderate"))
+
+results[["n_main_l"]][["sigma2_m"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "moderate"))
+
+
+
+
+results[["n_main_m"]][["sigma2_l"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "large"))
+
+results[["n_main_m"]][["sigma2_l"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "large"))
+
+results[["n_main_m"]][["sigma2_l"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[1], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "large"))
+
+
+results[["n_main_l"]][["sigma2_l"]][["n_calib_s"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[1], cor_level = "med", X_effect = "large", m_error = "large"))
+
+results[["n_main_l"]][["sigma2_l"]][["n_calib_m"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[2], cor_level = "med", X_effect = "large", m_error = "large"))
+
+results[["n_main_l"]][["sigma2_l"]][["n_calib_l"]] <- sapply(1:N_sim, function(x) full_simulation(n_main=N_main[2], n_calib=N_calib[3], cor_level = "med", X_effect = "large", m_error = "large"))
 time2 <- Sys.time()
 
 
 ## ----save_results, eval=TRUE---------------------------------------------
 time2-time1
 
-save(results,file=paste("Simulation_with_CI_", i,"_", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
+if(cluster) save(results,file=paste("Simulation_sample_size_", i,"_", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
 ```
