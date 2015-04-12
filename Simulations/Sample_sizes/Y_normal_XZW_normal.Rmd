@@ -5,8 +5,8 @@ output:
     toc: true
     toc_depth: 2
 ---
-These are results that different sample sizes for the main and calibration samples. They also include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$. This method performs similar to the uncongenial method, and both of these perform worse than using a naive approach.
 
+These are results that different sample sizes for the main and calibration samples. They also include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$. This method performs similar to the uncongenial method, and both of these perform worse than using a naive approach.
 
 ```{r load_libraries, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggplot2)
