@@ -192,21 +192,21 @@ We use the measurement error model as $f(W \mid T,X,Z) \thicksim N(\beta_0 + \be
 
 The original values used in their simulation are:
 
-```{r def_params, echo=FALSE}
+```{r def_params, echo=TRUE}
 # Sample size and number of simulations
-n_main  <- 2500
-n_calib <- 500
+N_main  <- c(2500,10000)
+N_calib <- c(100,500,1000)
 
 # Distribution of T | X,Z
 gamma_0  <- 0 #This will determine the proportion receiving treatment
 gamma_Z  <- 0.4
-n_main_m <- 0.4
-n_main_l <- 1.2
+gamma_Xs <- 0.4
+gamma_Xl <- 1.2
 
 # Distribution of (X,Z)
-n_calib_s    <- 0.3
-n_calib_m    <- 0.6
-n_calib_l    <- 0.9
+rho_l    <- 0.3
+rho_m    <- 0.6
+rho_h    <- 0.9
 
 
 # Distribution of W | Y,X,Z
@@ -228,20 +228,6 @@ delta_X  <- 0.5
 delta_Z  <- 0.1
 tau2     <- 1
 ```
-
-
-Distribution|Parameter  | Value     |   |Distribution|Parameter|Value
------       |-----      | -----     |---| ------     |------   |------
-Simulation  |$N_{sim}$  |`r N_sim`  |   | $W$          |$\beta_0$|`r beta_0`
-|  |$n_{calib}$|`r n_calib`|   |            |$\beta_1$|`r beta_1` 
-|  |$n_{main}$ |`r n_main` |   |            |small $\sigma^2$ | `r round(sigma2_s,3)`
-$T$ |$\gamma_0$ |`r gamma_0`|   |          |moderate $\sigma^2$ | `r round(sigma2_m,3)`
-|  |$\gamma_Z$ |`r gamma_Z`|   |            |large $\sigma^2$ | `r round(sigma2_l,3)`
-|  |small $\gamma_X$ |`r n_main_m`|  |$Y$   |$\Delta$ | `r Delta`
-|  |large $\gamma_X$ |`r n_main_l`|  |      |$\delta_X$| `r delta_X`
-$(X,Z)$| low $\n_calib$ |`r n_calib_s` |  |        |$\delta_Z$| `r delta_Z` 
-|  | medium $\n_calib$|  `r n_calib_m` |      |        |$\tau^2$  | `r tau2`
-| | high $\n_calib$|  `r n_calib_l` |      |        | | 
 
 
 
@@ -313,7 +299,7 @@ rownames(print_table) <- NULL
 colnames(print_table)[1:4] <- c("$n_main$", "Reliability", "$n_calib$", ".")
 ```
 
-```{r print_table, results='asis',eval=TRUE, echo=FALSE}
+```{r print_table, results='asis',eval=FALSE, echo=FALSE}
 # Big table with all results
 print(xtable(print_table), type = 'html', html.table.attributes = '', include.rownames=FALSE)
 ```
