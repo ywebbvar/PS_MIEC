@@ -895,7 +895,7 @@ full_simulation <- function(cor_level = "low", X_effect = "large", m_error = "la
 
 ## ----simulations,cache=TRUE, eval=TRUE-----------------------------------
 time1 <- Sys.time()
-set.seed(49202+i) 
+set.seed(5940+i) 
 
 results <- list()
 
