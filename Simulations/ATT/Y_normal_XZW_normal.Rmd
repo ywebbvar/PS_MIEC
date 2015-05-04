@@ -6,6 +6,8 @@ output:
     toc_depth: 2
 ---
 
+This simulation is to test how the ATT performs with MIEC.
+
 These are results that include a simpler imputation method, in which a random error is sampled from a $N(0,\sigma^2)$, where $\sigma^2$ is the variance of the error in $W$. This method performs similar to the uncongenial method, and both of these perform worse than using a naive approach.
 
 ```{r load_libraries, message=FALSE, warning=FALSE, echo=FALSE}
@@ -15,7 +17,7 @@ library(xtable)
 ```
 
 ```{r simulations, eval=TRUE, echo=FALSE}
-setwd("~/GitHub/PS_MIEC/Simulations/Simple_imputation/Cluster")
+setwd("~/GitHub/PS_MIEC/Simulations/ATT/Cluster")
 
 archive_names <- dir()[grep(".Rdata", dir())]
 
@@ -515,15 +517,16 @@ Code for simulation
 ################################ Simulation of propensity score with covariates
 ##measured with error
 ##
-##  This simulation includes the following changes: - Adds a simple imputation
-##  method. 
-##  1) estimate the variance of the error sigma^2 in the calibration
-##     sample and 
-##  2) generate an error variable in a multiple imputation setting
-##     following N(0,sigma^2) to be subtracted (or added) to the observed variable X,
-##     over N datasets (following their approach to combine across datasets).
+##  This simulation includes the following changes: 
+##   - Estimates ATT instead of ATE
 ##
 ##  It also does:
+##   - Adds a simple imputation method. 
+##     1. estimate the variance of the error sigma^2 in the calibration
+##     sample and 
+##     2. generate an error variable in a multiple imputation setting
+##     following N(0,sigma^2) to be subtracted (or added) to the observed variable X,
+##     over N datasets (following their approach to combine across datasets).
 ##   - Removes reliabilities < 0.5
 ##   - Uses m=12, n=3  (as all the previous simulations)
 ##   - Runs reliabilities 0.9 and 0.999
@@ -536,7 +539,7 @@ Code for simulation
 
 ##  We use this code to evaluate a simple imputation procedure
 
-cluster=TRUE
+cluster=FALSE
 
 library(mvtnorm)
 library(mitools)
@@ -662,7 +665,7 @@ sampling <- function(cor_level, X_effect, m_error){
   
   data.main  <- data.frame(W = W[i.main], T = T[i.main], Z=X_Z[i.main,"Z"], 
                            Y_obs = Y_obs[i.main])
-  data.cause <- data.frame(p= expit(logit_T[i.main]), X= X_Z[i.main,"X"], Y0 = Y0[i.main], Y1 = Y1[i.main])
+  data.cause <- data.frame(p= expit(logit_T[i.main]), X= X_Z[i.main,"X"], T = T[i.main], Y0 = Y0[i.main], Y1 = Y1[i.main])
   data.calib <- data.frame(X= X_Z[i.calib,"X"], W = W[i.calib])
   
   return(list(main=data.main, calib=data.calib, cause=data.cause))
@@ -678,7 +681,7 @@ true_regression <- function(data_main, Xtrue){
   model <- glm(T~Xtrue+Z, data=data_main, family=binomial)
   p_hat <- predict(model,type="response")
   
-  data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+  data_main$wt <- ifelse(data_main$T==1, 1, p_hat/(1-p_hat))
   
   design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
   survey.model <- svyglm(Y_obs~T, design=design.ate)
@@ -698,7 +701,7 @@ naive_regression <- function(data_main){
   model <- glm(T ~ W + Z, data=data_main, family=binomial)
   p_hat <- predict(model,type="response")
   
-  data_main$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+  data_main$wt <- ifelse(data_main$T==1, 1, p_hat/(1-p_hat))
   
   design.ate   <- svydesign(ids=~1, weights=~wt, data=data_main)
   survey.model <- svyglm(Y_obs~T, design=design.ate)
@@ -738,7 +741,7 @@ simple_imputation <- function(data_main, data_calib, N_data=12*3){
     model <- glm(T ~ X + Z, data=MI_data, family=binomial)
     p_hat <- predict(model,type="response")
     
-    MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+    MI_data$wt <- ifelse(data_main$T==1, 1, p_hat/(1-p_hat))
     
     design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
     survey.model <- svyglm(Y_obs~T, design=design.ate)
@@ -802,7 +805,7 @@ multiple_imputation_EC   <- function(data_main, data_calib, option="Yout"){
     model <- glm(T ~ X + Z, data=MI_data, family=binomial)
     p_hat <- predict(model,type="response")
     
-    MI_data$wt <- ifelse(data_main$T==1, 1/p_hat, 1/(1-p_hat))
+    MI_data$wt <- ifelse(data_main$T==1, 1, p_hat/(1-p_hat))
     
     design.ate   <- svydesign(ids=~1, weights=~wt, data=MI_data)
     survey.model <- svyglm(Y_obs~T, design=design.ate)
@@ -869,7 +872,7 @@ full_simulation <- function(cor_level = "low", X_effect = "large", m_error = "la
   MI_simple <- simple_imputation(data$main, data$calib)
   
   result_table      <- rbind(Xtrue, naive,MI_simple,MIEC_Yout, MIEC_noY, MIEC_noT, MIEC_noTY)
-  mean_insample     <- mean(data$cause$Y1 - data$cause$Y0) 
+  mean_insample     <- mean(data$cause$Y1[data$cause$T==1] - data$cause$Y0[data$cause$T==1]) 
   result_string     <- c(mean_insample,t(result_table))
   
   names(result_string) <- c("insample mean", 
@@ -963,4 +966,5 @@ time2 <- Sys.time()
 time2-time1
 
 if(cluster) save(results,file=paste("Simulation_with_CI_", i,"_", format(Sys.time(), "%Y%m%d-%H%M"),".Rdata", sep=""))
+
 ```
